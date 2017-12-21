@@ -13,8 +13,6 @@ So next time, when you are away from your computer, read the questions comfortab
 
 If you like the project, **star me**!
 
-We plan to add other languages in our application soon.
-
 # License:
 Fridge for codechef
 
