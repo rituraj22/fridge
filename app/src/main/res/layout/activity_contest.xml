@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fridge.site.tivra.fridgeforcodechef.ContestActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/contest_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways|snap" />
+
+        <TextView
+            android:id="@+id/contest_time_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#000"
+            android:padding="4dp"
+            android:text="05 Jan 2016 00:00:00  -  05 Jan 2016 00:00:00"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:visibility="gone" />
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/contest_swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/contest_toolbar"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="0dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/contest_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/contest_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+        </FrameLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/full_contest_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="18dp"
+        android:clickable="true"
+        android:src="@android:drawable/stat_sys_download"
+        app:elevation="6dp"
+        app:layout_anchor="@id/contest_swipe_refresh_layout"
+        app:layout_anchorGravity="bottom|right|end"
+        app:pressedTranslationZ="12dp" />
+
+
+</android.support.design.widget.CoordinatorLayout>

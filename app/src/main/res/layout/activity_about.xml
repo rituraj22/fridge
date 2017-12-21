@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="fridge.site.tivra.fridgeforcodechef.AboutActivity">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/about_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways|snap" />
+
+    </android.support.design.widget.AppBarLayout>
+    <ScrollView
+        android:id="@+id/about_layout"
+        android:layout_below="@id/about_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <android.support.v7.widget.AppCompatImageView
+                android:layout_marginTop="24dp"
+                android:id="@+id/app_icon"
+                android:src="@drawable/fridge_showcase"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="128dp"
+                android:layout_height="128dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:padding="8dp"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:text="Version 1.0.0"
+                android:layout_height="wrap_content"
+                android:id="@+id/app_version"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/github_button"
+                    android:contentDescription="Github logo"
+                    android:src="@drawable/ic_github"
+                    android:layout_width="80dp"
+                    android:padding="8dp"
+                    android:layout_weight="1"
+                    android:layout_height="80dp"
+                    app:layout_constraintDimensionRatio="1:1" />
+                <ImageView
+                    android:id="@+id/play_button"
+                    android:padding="8dp"
+                    android:contentDescription="Rate image"
+                    android:src="@drawable/ic_rate_24dp"
+                    android:layout_width="80dp"
+                    android:layout_weight="1"
+                    android:layout_height="80dp"
+                    app:layout_constraintDimensionRatio="1:1" />
+                <ImageView
+                    android:id="@+id/mail_button"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_mail_24dp"
+                    android:contentDescription="Mail logo"
+                    android:layout_width="80dp"
+                    android:layout_weight="1"
+                    android:layout_height="80dp"
+                    app:layout_constraintDimensionRatio="1:1" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="View Source Code"
+                    android:layout_weight="1" />
+                <TextView
+                    android:layout_width="90dp"
+                    android:text="Rate on Play Store"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:text="Give Feedback"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+    <TextView
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:text="Developed by Ritu Raj"
+        app:layout_anchor="@id/about_layout"
+        android:background="@color/black"
+        app:layout_anchorGravity="bottom"/>
+
+</android.support.design.widget.CoordinatorLayout>

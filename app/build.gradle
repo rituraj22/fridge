@@ -1,0 +1,42 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion "26.0.2"
+    defaultConfig {
+        applicationId "fridge.site.tivra.fridgeforcodechef"
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 7
+        versionName "1.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support:support-v4:27.+'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:27.+'
+    compile 'com.android.support:design:27.0.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'org.sufficientlysecure:html-textview:3.5'
+    compile 'com.android.volley:volley:1.1.0'
+    compile 'com.android.support:recyclerview-v7:27.+'
+    compile 'org.jsoup:jsoup:1.11.2'
+    compile('de.psdev.licensesdialog:licensesdialog:1.8.3')
+
+
+
+
+
+    testCompile 'junit:junit:4.12'
+}
