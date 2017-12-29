@@ -1,9 +1,7 @@
 package fridge.site.tivra.fridgeforcodechef;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
@@ -11,12 +9,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +21,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
@@ -36,12 +31,9 @@ import org.sufficientlysecure.htmltextview.HtmlTextView;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 
@@ -90,7 +82,6 @@ public class QuestionActivity extends AppCompatActivity {
         queue= Volley.newRequestQueue(this);
         url="https://www.codechef.com/"+contest+"/problems/"+code;
         apiurl="https://www.codechef.com/api/contests/"+contest+"/problems/"+code;
-        Log.d("testings",apiurl);
         textView.setText(url);
         if(android.os.Build.VERSION.SDK_INT>=23)
             fab.setBackgroundTintList(getColorStateList(R.color.download_color));
@@ -133,11 +124,19 @@ public class QuestionActivity extends AppCompatActivity {
         final JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, apiurl, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                String body= "",time_limit="",source_limit="";
+                String body= "",time_limit="",source_limit="",editorial="";
                 try {
                     body = response.getString("body");
                     time_limit=response.getString("max_timelimit");
                     source_limit=response.getString("source_sizelimit");
+                    try {
+                        editorial=response.getString("editorial_url");
+                        editorial="\nEditorial: "+editorial;
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     swipeRefreshLayout.setRefreshing(false);
 
                 } catch (JSONException e) {
@@ -150,9 +149,8 @@ public class QuestionActivity extends AppCompatActivity {
                 String temp;
                 makeBody(bufferedReader,str);
                 bodyData=str.toString();
-                Log.d("hooo",bodyData);
                 bodyView.setHtml(bodyData,new HtmlHttpImageGetter(bodyView));
-                extraData="Time Limit: "+time_limit+" sec  Source limit: "+source_limit+" bytes";
+                extraData="Time Limit: "+time_limit+" sec  Source limit: "+source_limit+" bytes"+editorial;
                 textView.setText(extraData);
 
             }
@@ -193,6 +191,8 @@ public class QuestionActivity extends AppCompatActivity {
                 bufferedReader.readLine();
                 bufferedReader.readLine();
                 extraData=bufferedReader.readLine();
+                if((line=bufferedReader.readLine())!=null)
+                    extraData=extraData+("\n"+line);
                 fileInputStream2.close();
                 bodyView.setHtml(bodyData,new HtmlHttpImageGetter(bodyView));
                 textView.setText(extraData);

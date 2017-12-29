@@ -12,43 +12,45 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import fridge.site.tivra.fridgeforcodechef.DataModels.Contest;
 import fridge.site.tivra.fridgeforcodechef.ContestActivity;
+import fridge.site.tivra.fridgeforcodechef.DataModels.Contest;
 import fridge.site.tivra.fridgeforcodechef.R;
 
 /**
  * Created by cogito on 12/17/17.
  */
 
-public class ContestsListAdapter extends RecyclerView.Adapter<ContestsListAdapter.ContestHolder>{
-    public ArrayList<Contest> contests,filtered;
+public class ContestsListAdapter extends RecyclerView.Adapter<ContestsListAdapter.ContestHolder> {
+    public ArrayList<Contest> contests, filtered;
+
     public ContestsListAdapter(ArrayList<Contest> contests) {
-        this.contests=contests;
-        this.filtered=contests;
+        this.contests = contests;
+        this.filtered = contests;
     }
+
     @Override
     public ContestHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.contest_card,parent,false);
-        ContestHolder c=new ContestHolder(v);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.contest_card, parent, false);
+        ContestHolder c = new ContestHolder(v);
         return c;
     }
 
     @Override
     public void onBindViewHolder(final ContestHolder holder, int position) {
-        final Contest contest=filtered.get(position);
+        final Contest contest = filtered.get(position);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(contest.flag==1)
-                    Toast.makeText(holder.context,"Contest yet to start",Toast.LENGTH_SHORT).show();
+                if (contest.flag == 1)
+                    Toast.makeText(holder.context, "Contest yet to start", Toast.LENGTH_SHORT).show();
                 else {
                     Intent i = new Intent(holder.context, ContestActivity.class);
                     i.putExtra("code", contest.contestCode);
                     i.putExtra("name", contest.contestName);
-                    i.putExtra("start",contest.startDate);
-                    i.putExtra("end",contest.endDate);
-                    if(contest.flag==2)
-                        i.putExtra("practice",true);
+                    i.putExtra("start", contest.startDate);
+                    i.putExtra("end", contest.endDate);
+                    if (contest.flag == 2)
+                        i.putExtra("practice", true);
                     holder.context.startActivity(i);
                 }
             }
@@ -74,43 +76,45 @@ public class ContestsListAdapter extends RecyclerView.Adapter<ContestsListAdapte
 
     @Override
     public int getItemCount() {
-        if(filtered!=null)
+        if (filtered != null)
             return filtered.size();
         else
             return 0;
     }
 
     public class ContestHolder extends RecyclerView.ViewHolder {
-        public TextView contestName,startDate,endDate;
+        public TextView contestName, startDate, endDate;
         public AppCompatImageView imageView;
         private Context context;
+
         public ContestHolder(View itemView) {
             super(itemView);
-            context=itemView.getContext();
-            imageView=itemView.findViewById(R.id.contest_status);
-            contestName=itemView.findViewById(R.id.contest_name);
-            startDate=itemView.findViewById(R.id.start_date);
-            endDate=itemView.findViewById(R.id.end_date);
+            context = itemView.getContext();
+            imageView = itemView.findViewById(R.id.contest_status);
+            contestName = itemView.findViewById(R.id.contest_name);
+            startDate = itemView.findViewById(R.id.start_date);
+            endDate = itemView.findViewById(R.id.end_date);
         }
     }
+
     public void setFilter(String str) {
-        if(str==null)
+        if (str == null)
             return;
-        str=str.toLowerCase();
-        ArrayList<Contest> temp=new ArrayList<Contest>();
-        for(Contest c:contests) {
-            if(c.contestName.toLowerCase().equals(str)||c.contestCode.toLowerCase().contains(str)) {
+        str = str.toLowerCase();
+        ArrayList<Contest> temp = new ArrayList<Contest>();
+        for (Contest c : contests) {
+            if (c.contestName.toLowerCase().equals(str) || c.contestCode.toLowerCase().equals(str)) {
                 temp.add(c);
             }
         }
-        for(Contest c:contests) {
-            if(c.contestName.toLowerCase().contains(str)||c.contestCode.toLowerCase().contains(str)) {
-                if(!(c.contestName.toLowerCase().equals(str)||c.contestCode.toLowerCase().contains(str))) {
+        for (Contest c : contests) {
+            if (c.contestName.toLowerCase().contains(str) || c.contestCode.toLowerCase().contains(str)) {
+                if (!(c.contestName.toLowerCase().equals(str) || c.contestCode.toLowerCase().equals(str))) {
                     temp.add(c);
                 }
             }
         }
-        filtered=temp;
+        filtered = temp;
         notifyDataSetChanged();
     }
 }

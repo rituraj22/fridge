@@ -2,7 +2,6 @@ package fridge.site.tivra.fridgeforcodechef;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -235,17 +233,23 @@ public class ContestActivity extends AppCompatActivity {
 
     public void downloadQuestion(final Question q) {
         File f1=new File(getApplicationContext().getFilesDir(),q.questionCode+".body1");
-        Log.d("fileNow",f1.getPath());
         if(f1.exists())
             return;
         final JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, "https://www.codechef.com/api/contests/"+code+"/problems/"+q.questionCode, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                String body= "",time_limit="",source_limit="";
+                String body= "",time_limit="",source_limit="",editorial="";
                 try {
                     body = response.getString("body");
                     time_limit=response.getString("max_timelimit");
                     source_limit=response.getString("source_sizelimit");
+                    try {
+                        editorial=response.getString("editorial_url");
+                        editorial="\nEditorial: "+editorial;
+                    }
+                    catch(JSONException e) {
+                        e.printStackTrace();
+                    }
                     swipeRefreshLayout.setRefreshing(false);
 
                 } catch (JSONException e) {
@@ -272,8 +276,7 @@ public class ContestActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 String bodyData=str.toString();
-                Log.d("hooo",bodyData);
-                String extraData="Time Limit: "+time_limit+" sec  Source limit: "+source_limit+" bytes";
+                String extraData="Time Limit: "+time_limit+" sec  Source limit: "+source_limit+" bytes"+editorial;
 
                 File file=new File(getFilesDir(),q.questionCode+".body1");
                 File file2=new File(getFilesDir(),q.questionCode+".extra2");
@@ -296,7 +299,6 @@ public class ContestActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("viltriber",error.toString());
                 showToast("Error in downloading "+q.questionTitle,1200);
             }
         });

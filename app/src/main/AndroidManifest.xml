@@ -35,7 +35,10 @@
         <activity android:name=".ContestActivity" />
         <activity android:name=".QuestionLoaderActivity" />
         <activity android:name=".ContestLoaderActivity" />
-        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".AboutActivity" />
+        <activity
+            android:name=".DirectCodeActivity"
+            android:windowSoftInputMode="stateVisible" />
     </application>
 
 </manifest>

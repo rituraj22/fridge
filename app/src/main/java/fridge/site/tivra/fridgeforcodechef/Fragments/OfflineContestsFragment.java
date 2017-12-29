@@ -11,7 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -109,7 +108,6 @@ public class OfflineContestsFragment extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Log.d("vsauce", files[i].getName() + "    " + files[i].lastModified());
             }
         }
         swipeRefreshLayout.setRefreshing(false);

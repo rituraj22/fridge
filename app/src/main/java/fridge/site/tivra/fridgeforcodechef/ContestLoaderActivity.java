@@ -69,6 +69,7 @@ public class ContestLoaderActivity extends AppCompatActivity {
                 }
                 catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),"Not a contest, trying to open in browser",Toast.LENGTH_SHORT).show();
                     StaticHelper.openBrowser("https://www.codechef.com/"+code,getApplicationContext());
                     finish();
                 }

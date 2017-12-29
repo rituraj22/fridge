@@ -9,12 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.SearchView;
-
+import android.view.View;
 
 
 import fridge.site.tivra.fridgeforcodechef.Fragments.ContestsListFragment;
@@ -31,60 +26,67 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String url=getIntent().getDataString();
-//        fab=findViewById(R.id.universal_search);
-        if(url!=null) {
-            String fullurl=url;
-            int ind=url.indexOf("codechef.com");
-            ind+=12;
-            url=url.substring(ind);
-            String[] parts=url.split("/");
-            int length=parts.length;
+        String url = getIntent().getDataString();
+        if (url != null) {
+            String fullurl = url;
+            int ind = url.indexOf("codechef.com");
+            ind += 12;
+            url = url.substring(ind);
+            String[] parts = url.split("/");
+            int length = parts.length;
             String contest;
-            boolean status=false;
-            if(length>1) {
-                contest=parts[1];
-                if(contest.equals("problems")) {
-                    contest="PRACTICE";
-                    String qcode=parts[2];
-                    Intent i=new Intent(this,QuestionLoaderActivity.class);
-                    i.putExtra("code",contest);
-                    i.putExtra("qcode",qcode);
+            boolean status = false;
+            if (length > 1) {
+                contest = parts[1];
+                if (contest.equals("problems")) {
+                    contest = "PRACTICE";
+                    String qcode = parts[2];
+                    Intent i = new Intent(this, QuestionLoaderActivity.class);
+                    i.putExtra("code", contest);
+                    i.putExtra("qcode", qcode);
                     startActivity(i);
-                    status=true;
-                }
-                else if(length==2) {
+                    status = true;
+                } else if (length == 2) {
 
                     Intent i = new Intent(this, ContestLoaderActivity.class);
                     i.putExtra("code", contest);
                     startActivity(i);
-                    status=true;
+                    status = true;
                     //opne contest
-                }
-                else if(length==4) {
-                    String qcode=parts[3];
-                    Intent i=new Intent(this,QuestionLoaderActivity.class);
-                    i.putExtra("code",contest);
-                    i.putExtra("qcode",qcode);
+                } else if (length == 4) {
+                    String qcode = parts[3];
+                    Intent i = new Intent(this, QuestionLoaderActivity.class);
+                    i.putExtra("code", contest);
+                    i.putExtra("qcode", qcode);
                     startActivity(i);
-                    status=true;
+                    status = true;
                 }
             }
-            if(!status) {
-                StaticHelper.openBrowser(fullurl,getApplicationContext());
+            if (!status) {
+                StaticHelper.openBrowser(fullurl, getApplicationContext());
                 finish();
             }
         }
-            setContentView(R.layout.activity_main);
-            mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
-            viewPager = findViewById(R.id.pager);
-            Log.d("HOo", "HOO");
-            viewPager.setAdapter(mainPagerAdapter);
-            final android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            TabLayout tabLayout = findViewById(R.id.tab_layout);
-            tabLayout.setupWithViewPager(viewPager);
-            viewPager.setCurrentItem(1);
+        setContentView(R.layout.activity_main);
+        fab = findViewById(R.id.direct_code_button);
+        if(android.os.Build.VERSION.SDK_INT>=23)
+            fab.setBackgroundTintList(getColorStateList(R.color.download_color));
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), DirectCodeActivity.class);
+                startActivity(i);
+            }
+        });
+
+        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
+        viewPager = findViewById(R.id.pager);
+        viewPager.setAdapter(mainPagerAdapter);
+        final android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setCurrentItem(1);
 
     }
 
@@ -113,12 +115,11 @@ public class MainActivity extends AppCompatActivity {
             if (position == 0) {
                 Fragment fragment = new ContestsListFragment();
                 return fragment;
-            } else if(position==1){
+            } else if (position == 1) {
                 Fragment fragment = new QuestionsListFragment();
                 return fragment;
-            }
-            else {
-                Fragment fragment=new OfflineContestsFragment();
+            } else {
+                Fragment fragment = new OfflineContestsFragment();
                 return fragment;
             }
         }
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             if (position == 0)
                 return "Online Contests";
-            else if(position==1)
+            else if (position == 1)
                 return "Saved Questions";
             else
                 return "Saved Contests";

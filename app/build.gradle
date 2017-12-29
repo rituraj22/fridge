@@ -7,8 +7,8 @@ android {
         applicationId "fridge.site.tivra.fridgeforcodechef"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 7
-        versionName "1.1"
+        versionCode 12
+        versionName "1.2.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

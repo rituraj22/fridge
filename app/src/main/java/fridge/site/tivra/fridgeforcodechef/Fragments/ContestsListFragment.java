@@ -7,11 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,14 +35,11 @@ import org.jsoup.select.Elements;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 import de.psdev.licensesdialog.LicensesDialog;
 import fridge.site.tivra.fridgeforcodechef.AboutActivity;
 import fridge.site.tivra.fridgeforcodechef.DataModels.Contest;
 import fridge.site.tivra.fridgeforcodechef.Adapters.ContestsListAdapter;
-import fridge.site.tivra.fridgeforcodechef.DataModels.Question;
-import fridge.site.tivra.fridgeforcodechef.MainActivity;
 import fridge.site.tivra.fridgeforcodechef.R;
 
 public class ContestsListFragment extends Fragment {
@@ -96,13 +90,11 @@ public class ContestsListFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 parseContests(response);
-                Log.d("Hoo", response);
                 swipeRefreshLayout.setRefreshing(false);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("Hoo", error.toString());
                 if (isResumed()) {
                     Toast.makeText(getActivity(), "Error loading", Toast.LENGTH_SHORT);
                     swipeRefreshLayout.setRefreshing(false);
@@ -158,7 +150,6 @@ public class ContestsListFragment extends Fragment {
             recyclerView.setVisibility(View.VISIBLE);
             contestsPlaceholder.setVisibility(View.GONE);
         }
-        Log.d("Hoo", "hi    " + contestArrayList.size());
     }
 
 

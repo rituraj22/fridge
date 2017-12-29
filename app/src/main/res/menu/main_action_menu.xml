@@ -11,14 +11,16 @@
         android:title="About"
         app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/license_button"
-        android:title="Open source licenses"
-        app:showAsAction="never"/>
 
     <item
         android:id="@+id/share_menu_main"
         android:title="Share App"
+        app:showAsAction="never"/>
+
+
+    <item
+        android:id="@+id/license_button"
+        android:title="Open source licenses"
         app:showAsAction="never"/>
 
 </menu>

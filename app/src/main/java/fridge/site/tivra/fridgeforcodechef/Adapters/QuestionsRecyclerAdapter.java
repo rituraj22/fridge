@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +83,6 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
             @Override
             public void onClick(View view) {
                 File f = new File(holder.context.getFilesDir(),holder.questionCode+".body1");
-                Log.d("Hooo",holder.questionCode+".body1");
                 if(f.exists()) {
                     f.delete();
                     f=new File(holder.context.getFilesDir(),holder.questionCode+".extra2");
@@ -100,11 +98,18 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
                 final JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, apiurl, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        String body= "",time_limit="",source_limit="";
+                        String body= "",time_limit="",source_limit="",editorial="";
                         try {
                             body = response.getString("body");
                             time_limit=response.getString("max_timelimit");
                             source_limit=response.getString("source_sizelimit");
+                            try {
+                                editorial=response.getString("editorial_url");
+                                editorial="\nEditorial: "+editorial;
+                            }
+                            catch(JSONException e) {
+                                e.printStackTrace();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -117,7 +122,7 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
                         holder.button.setBackgroundDrawable(holder.context.getDrawable(R.drawable.round_button_delete));
 
                         bodyData=str.toString();
-                        extraData="Time Limit: "+time_limit+" sec  Source limit: "+source_limit+" bytes";
+                        extraData="Time Limit: "+time_limit+" sec  Source limit: "+source_limit+" bytes"+editorial;
                         File file=new File(holder.context.getFilesDir(),holder.questionCode+".body1");
                         File file2=new File(holder.context.getFilesDir(),holder.questionCode+".extra2");
                         try {

@@ -64,7 +64,8 @@ public class QuestionLoaderActivity extends AppCompatActivity {
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    StaticHelper.openBrowser("https://www.codechef.com/"+code,getApplicationContext());
+                    Toast.makeText(getApplicationContext(),"Not a question, trying to open in browser",Toast.LENGTH_SHORT).show();
+                    StaticHelper.openBrowser("https://www.codechef.com/"+code+"/problems/"+qcode,getApplicationContext());
                     finish();
                 }
 

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.android.volley.RequestQueue;
 import java.io.File;
 import java.util.ArrayList;
 
-import fridge.site.tivra.fridgeforcodechef.DataModels.Contest;
 import fridge.site.tivra.fridgeforcodechef.DataModels.Question;
 import fridge.site.tivra.fridgeforcodechef.QuestionActivity;
 import fridge.site.tivra.fridgeforcodechef.R;
@@ -73,7 +71,6 @@ public class QuestionsLiteRecyclerAdapter extends RecyclerView.Adapter<Questions
             @Override
             public void onClick(View view) {
                 File f = new File(holder.context.getFilesDir(), holder.questionCode + ".body1");
-                Log.d("Hooo", holder.questionCode + ".body1");
                 if (f.exists()) {
                     f.delete();
                     f = new File(holder.context.getFilesDir(), holder.questionCode + ".extra2");
@@ -152,13 +149,13 @@ public class QuestionsLiteRecyclerAdapter extends RecyclerView.Adapter<Questions
         str=str.toLowerCase();
         ArrayList<Question> temp=new ArrayList<Question>();
         for(Question c:questions) {
-            if(c.questionName.toLowerCase().equals(str)||c.questionCode.toLowerCase().contains(str)||c.contestName.toLowerCase().equals(str)||c.contestCode.toLowerCase().contains(str)) {
+            if(c.questionName.toLowerCase().equals(str)||c.questionCode.toLowerCase().equals(str)||c.contestName.toLowerCase().equals(str)||c.contestCode.toLowerCase().equals(str)) {
                 temp.add(c);
             }
         }
         for(Question c:questions) {
             if(c.questionName.toLowerCase().contains(str)||c.questionCode.toLowerCase().contains(str)||c.contestName.toLowerCase().contains(str)||c.contestCode.toLowerCase().contains(str)) {
-                if(!(c.questionName.toLowerCase().equals(str)||c.questionCode.toLowerCase().contains(str)||c.contestName.toLowerCase().equals(str)||c.contestCode.toLowerCase().contains(str))) {
+                if(!(c.questionName.toLowerCase().equals(str)||c.questionCode.toLowerCase().equals(str)||c.contestName.toLowerCase().equals(str)||c.contestCode.toLowerCase().equals(str))) {
                     temp.add(c);
                 }
             }
