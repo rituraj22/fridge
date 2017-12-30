@@ -68,7 +68,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="18dp"
         android:clickable="true"
-        android:src="@android:drawable/stat_sys_download"
+        app:srcCompat="@drawable/ic_file_download_white_24dp"
         app:elevation="6dp"
         app:layout_anchor="@id/contest_swipe_refresh_layout"
         app:layout_anchorGravity="bottom|right|end"

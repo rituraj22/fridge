@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="#FFE0B2">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#FFE0FFFF">
     <item
         android:left="8dp"
         android:top="8dp"
@@ -10,4 +10,4 @@
             <solid android:color="#FF9800"/>
         </shape>
     </item>
-</layer-list>
+</ripple>

@@ -49,8 +49,6 @@ public class ContestsListAdapter extends RecyclerView.Adapter<ContestsListAdapte
                     i.putExtra("name", contest.contestName);
                     i.putExtra("start", contest.startDate);
                     i.putExtra("end", contest.endDate);
-                    if (contest.flag == 2)
-                        i.putExtra("practice", true);
                     holder.context.startActivity(i);
                 }
             }

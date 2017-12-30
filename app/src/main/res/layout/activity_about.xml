@@ -32,7 +32,7 @@
             <android.support.v7.widget.AppCompatImageView
                 android:layout_marginTop="24dp"
                 android:id="@+id/app_icon"
-                android:src="@drawable/fridge_showcase"
+                app:srcCompat="@drawable/fridge_showcase"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="128dp"
                 android:layout_height="128dp" />
@@ -52,7 +52,7 @@
                 <ImageView
                     android:id="@+id/github_button"
                     android:contentDescription="Github logo"
-                    android:src="@drawable/ic_github"
+                    app:srcCompat="@drawable/ic_github"
                     android:layout_width="80dp"
                     android:padding="8dp"
                     android:layout_weight="1"
@@ -62,7 +62,7 @@
                     android:id="@+id/play_button"
                     android:padding="8dp"
                     android:contentDescription="Rate image"
-                    android:src="@drawable/ic_rate_24dp"
+                    app:srcCompat="@drawable/ic_rate_24dp"
                     android:layout_width="80dp"
                     android:layout_weight="1"
                     android:layout_height="80dp"
@@ -70,7 +70,7 @@
                 <ImageView
                     android:id="@+id/mail_button"
                     android:padding="8dp"
-                    android:src="@drawable/ic_mail_24dp"
+                    app:srcCompat="@drawable/ic_mail_24dp"
                     android:contentDescription="Mail logo"
                     android:layout_width="80dp"
                     android:layout_weight="1"

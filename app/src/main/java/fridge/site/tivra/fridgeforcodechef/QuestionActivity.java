@@ -2,6 +2,9 @@ package fridge.site.tivra.fridgeforcodechef;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
@@ -9,6 +12,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -67,6 +71,7 @@ public class QuestionActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.question_toolbar));
         getSupportActionBar().setTitle(name+" ("+code+")");
         fab=findViewById(R.id.question_download);
+        fab.bringToFront();
         NestedScrollView scrollView=findViewById(R.id.question_scroll_view);
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -85,10 +90,13 @@ public class QuestionActivity extends AppCompatActivity {
         textView.setText(url);
         if(android.os.Build.VERSION.SDK_INT>=23)
             fab.setBackgroundTintList(getColorStateList(R.color.download_color));
+        else
+            fab.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(76,191,80)));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(bodyData!=null) {
+                    Log.d("logging tag","random");
                     try {
                         File f=new File(getApplicationContext().getFilesDir(),code+".body1");
                         if(f.exists()) {
@@ -96,9 +104,16 @@ public class QuestionActivity extends AppCompatActivity {
                             f=new File(getApplicationContext().getFilesDir(),code+".extra2");
                             f.delete();
                             showToast("Deleted "+name,1000);
-                            fab.setImageDrawable(getApplicationContext().getDrawable(R.drawable.ic_file_download_white_24dp));
-                            if(android.os.Build.VERSION.SDK_INT>=23)
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                fab.setImageDrawable(getApplicationContext().getDrawable(R.drawable.ic_file_download_white_24dp));
+                            }
+                            else {
+                                fab.setImageResource(R.drawable.ic_file_download_white_24dp);
+                            }
+                            if(Build.VERSION.SDK_INT>=23)
                                 fab.setBackgroundTintList(getColorStateList(R.color.download_color));
+                            else
+                                fab.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(76,191,80)));
                             return;
                         }
                         FileOutputStream fileOutputStream = openFileOutput(code + ".body1", Context.MODE_PRIVATE);
@@ -108,9 +123,11 @@ public class QuestionActivity extends AppCompatActivity {
                         fileOutputStream1.write((name+" ("+code+")"+"\n"+cname+"\n"+extraData).getBytes(Charset.forName("UTF-8")));
                         fileOutputStream1.close();
                         showToast( "Downloaded "+name, 1000);
-                        fab.setImageDrawable(getApplicationContext().getDrawable(R.drawable.ic_delete_white_24dp));
-                        if(android.os.Build.VERSION.SDK_INT>=23)
+                        fab.setImageResource(R.drawable.ic_delete_white_24dp);
+                        if(Build.VERSION.SDK_INT>=23)
                             fab.setBackgroundTintList(getColorStateList(R.color.delete_color));
+                        else
+                            fab.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(211,47,47)));
                     }
                     catch (Exception e) {
                         showToast( "Error", 1000);
@@ -173,7 +190,7 @@ public class QuestionActivity extends AppCompatActivity {
             try {
                 File file=new File(getFilesDir(),code+".body1");
                 if(!file.exists())
-                        throw new Exception("hoo");
+                    throw new Exception("hoo");
                 FileInputStream fileInputStream=new FileInputStream(file);
                 BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(fileInputStream,Charset.forName("UTF-8")));
                 StringBuilder temp=new StringBuilder();
@@ -196,9 +213,12 @@ public class QuestionActivity extends AppCompatActivity {
                 fileInputStream2.close();
                 bodyView.setHtml(bodyData,new HtmlHttpImageGetter(bodyView));
                 textView.setText(extraData);
-                fab.setImageDrawable(getDrawable(R.drawable.ic_delete_white_24dp));
+                fab.setImageResource(R.drawable.ic_delete_white_24dp);
+//                fab.setImageDrawable(getDrawable(R.drawable.ic_delete_white_24dp));
                 if(android.os.Build.VERSION.SDK_INT>=23)
                     fab.setBackgroundTintList(getColorStateList(R.color.delete_color));
+                else
+                    fab.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(211,47,47)));
             }
             catch (Exception e) {
                 swipeRefreshLayout.setRefreshing(true);
@@ -288,9 +308,12 @@ public class QuestionActivity extends AppCompatActivity {
             textView.setText(extraData);
             File f=new File(getApplicationContext().getFilesDir(),code+".body1");
             if(f.exists()) {
-                fab.setImageDrawable(getApplicationContext().getDrawable(R.drawable.ic_delete_white_24dp));
+//                fab.setImageDrawable(getApplicationContext().getDrawable(R.drawable.ic_delete_white_24dp));
+                fab.setImageResource(R.drawable.ic_delete_white_24dp);
                 if(android.os.Build.VERSION.SDK_INT>=23)
                     fab.setBackgroundTintList(getColorStateList(R.color.delete_color));
+                else
+                    fab.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(211,47,47)));
             }
         }
     }

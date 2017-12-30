@@ -72,12 +72,14 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
         holder.questionCode=question.questionCode;
         File f = new File(holder.context.getFilesDir(),holder.questionCode+".body1");
         if(f.exists()) {
-            holder.button.setImageDrawable(holder.context.getDrawable(R.drawable.ic_delete_white_24dp));
-            holder.button.setBackgroundDrawable(holder.context.getDrawable(R.drawable.round_button_delete));
+//            holder.button.setImageDrawable(holder.context.getResources().getDrawable(R.drawable.ic_delete_white_24dp));
+            holder.button.setImageResource(R.drawable.ic_delete_white_24dp);
+            holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_delete));
         }
         else {
-            holder.button.setImageDrawable(holder.context.getDrawable(R.drawable.ic_file_download_white_24dp));
-            holder.button.setBackgroundDrawable(holder.context.getDrawable(R.drawable.round_button_download));
+            holder.button.setImageResource(R.drawable.ic_file_download_white_24dp);
+//            holder.button.setImageDrawable(holder.context.getResources().getDrawable(R.drawable.ic_file_download_white_24dp));
+            holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_download));
         }
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,11 +90,12 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
                     f=new File(holder.context.getFilesDir(),holder.questionCode+".extra2");
                     f.delete();
                     showToast(holder.context,"Deleted "+question.questionTitle,1000);
-                    holder.button.setImageDrawable(holder.context.getDrawable(R.drawable.ic_file_download_white_24dp));
-                    holder.button.setBackgroundDrawable(holder.context.getDrawable(R.drawable.round_button_download));
+                    holder.button.setImageResource(R.drawable.ic_file_download_white_24dp);
+//                    holder.button.setImageDrawable(holder.context.getResources().getDrawable(R.drawable.ic_file_download_white_24dp));
+                    holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_download));
                     return;
                 }
-                holder.button.setBackgroundDrawable(holder.context.getDrawable(R.drawable.round_button_progress));
+                holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_progress));
                 holder.queue= Volley.newRequestQueue(holder.context);
                 String apiurl="https://www.codechef.com/api/contests/"+question.contestCode+"/problems/"+holder.questionCode;
                 final JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, apiurl, null, new Response.Listener<JSONObject>() {
@@ -118,8 +121,9 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
                         StringBuilder str=new StringBuilder("");
                         String temp;
                         QuestionActivity.makeBody(bufferedReader,str);
-                        holder.button.setImageDrawable(holder.context.getDrawable(R.drawable.ic_delete_white_24dp));
-                        holder.button.setBackgroundDrawable(holder.context.getDrawable(R.drawable.round_button_delete));
+                        holder.button.setImageResource(R.drawable.ic_delete_white_24dp);
+//                        holder.button.setImageDrawable(holder.context.getResources().getDrawable(R.drawable.ic_delete_white_24dp));
+                        holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_delete));
 
                         bodyData=str.toString();
                         extraData="Time Limit: "+time_limit+" sec  Source limit: "+source_limit+" bytes"+editorial;

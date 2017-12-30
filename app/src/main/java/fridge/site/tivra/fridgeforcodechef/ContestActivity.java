@@ -2,6 +2,9 @@ package fridge.site.tivra.fridgeforcodechef;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -354,16 +357,29 @@ public class ContestActivity extends AppCompatActivity {
             }
         }
         if(downAll) {
-            fab.setImageDrawable(getDrawable(R.drawable.ic_delete_white_24dp));
-            if(android.os.Build.VERSION.SDK_INT>=23)
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                fab.setImageDrawable(getDrawable(R.drawable.ic_delete_white_24dp));
+//            }
+//            else {
+                fab.setImageResource(R.drawable.ic_delete_white_24dp);
+//            }
+            if(Build.VERSION.SDK_INT>=23)
             fab.setBackgroundTintList(getColorStateList(R.color.delete_color));
+            else
+                fab.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(211,47,47)));
         }
         else {
-            fab.setImageDrawable(getDrawable(R.drawable.ic_file_download_white_24dp));
-            if(android.os.Build.VERSION.SDK_INT>=23) {
-                fab.setBackgroundTintList(getColorStateList(R.color.download_color));
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                fab.setImageDrawable(getDrawable(R.drawable.ic_file_download_white_24dp));
+//            }
+//            else {
+                fab.setImageResource(R.drawable.ic_file_download_white_24dp);
+//            }
+            if(Build.VERSION.SDK_INT>=23) {
                 fab.setBackgroundTintList(getColorStateList(R.color.download_color));
             }
+            else
+                fab.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(76,191,80)));
 
         }
         if(toast&&!prev&&downAll) {
