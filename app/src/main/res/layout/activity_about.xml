@@ -41,7 +41,6 @@
                 android:padding="8dp"
                 android:textAlignment="center"
                 android:textSize="24sp"
-                android:text="Version 1.0.0"
                 android:layout_height="wrap_content"
                 android:id="@+id/app_version"/>
             <LinearLayout

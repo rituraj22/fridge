@@ -64,33 +64,43 @@ public class ContestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contest);
         fab=findViewById(R.id.full_contest_download);
+        recyclerView=findViewById(R.id.contest_recyclerview);
         contestTimeToolbar=findViewById(R.id.contest_time_toolbar);
-        fab.hide();
+        swipeRefreshLayout=findViewById(R.id.contest_swipe_refresh_layout);
+        Toolbar toolbar=findViewById(R.id.contest_toolbar);
+
+
         code=getIntent().getExtras().getString("code");
         name=getIntent().getExtras().getString("name");
         startDate=getIntent().getExtras().getString("start");
         endDate=getIntent().getExtras().getString("end");
+
+        //If contest is open in practice mode the question is loaded with contest set to PRACTICE instead of the original contest
         if(getIntent().getExtras().containsKey("practice"))
             sentCode="PRACTICE";
         else
             sentCode=code;
+
         if(!startDate.trim().equals("")) {
             contestTimeToolbar.setText(startDate+"  -  "+endDate);
             contestTimeToolbar.setVisibility(View.VISIBLE);
         }
+
+        fab.hide();
+
         url="https://www.codechef.com/"+code;
         apiurl="https://www.codechef.com/api/contests/"+code;
+
         questions=new ArrayList<Question>();
         recyclerAdapter=new QuestionsRecyclerAdapter(questions);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
-        recyclerView=findViewById(R.id.contest_recyclerview);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(layoutManager);
-        queue= Volley.newRequestQueue(this);
-        swipeRefreshLayout=findViewById(R.id.contest_swipe_refresh_layout);
-        Toolbar toolbar=findViewById(R.id.contest_toolbar);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(name+" ("+code+") ");
+
+        queue= Volley.newRequestQueue(this);
 
         final JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, apiurl, null, new Response.Listener<JSONObject>() {
             @Override
@@ -108,9 +118,12 @@ public class ContestActivity extends AppCompatActivity {
                         String accuracy=temp.getString("accuracy");
                         questions.add(new Question(qname,qcode,successful,accuracy,sentCode,name));
                     }
+                    //Order questions depending upon number of submissions
                     Collections.sort(questions,Collections.<Question>reverseOrder());
                     recyclerAdapter.notifyDataSetChanged();
                     updateFab(true);
+
+                    //With all the details loaded, now contest can be downloaded
                     fab.show();
                 } catch (JSONException e) {
                     showToast("Contest might be unavailable",1500);
@@ -127,6 +140,43 @@ public class ContestActivity extends AppCompatActivity {
             }
         });
 
+        if(savedInstanceState==null||!savedInstanceState.containsKey("questions")) {
+            try {
+                File file = new File(getFilesDir(), code + ".contest");
+
+                //Check if contets details are saved, if not exception is thrown, which adds loading request to queue
+                if (!file.exists())
+                    throw new Exception("hoo");
+
+                FileInputStream fileInputStream=new FileInputStream(file);
+                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(fileInputStream,Charset.forName("UTF-8")));
+
+                name=bufferedReader.readLine();
+                startDate=bufferedReader.readLine();
+                endDate=bufferedReader.readLine();
+
+                String line;
+                while((line=bufferedReader.readLine())!=null) {
+                    String qname,qcode,submissions,percent;
+                    qname=line;
+                    qcode=bufferedReader.readLine();
+                    submissions=bufferedReader.readLine();
+                    percent=bufferedReader.readLine();
+                    Question question=new Question(qname,qcode,submissions,percent,sentCode,name);
+                    questions.add(question);
+                }
+                recyclerAdapter.notifyDataSetChanged();
+                updateFab(false);
+                fileInputStream.close();
+                bufferedReader.close();
+            }
+            catch (Exception e) {
+                swipeRefreshLayout.setRefreshing(true);
+                queue.add(jsonObjectRequest);
+            }
+        }
+
+        //Add loading request on swipe refresh
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -134,6 +184,7 @@ public class ContestActivity extends AppCompatActivity {
             }
         });
 
+        //Hide fab on scroll
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -145,10 +196,12 @@ public class ContestActivity extends AppCompatActivity {
             }
         });
 
+        //Download or delete depending upon state
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(downAll) {
+                    //Delete all the questions data
                     for(Question q:questions) {
                         File f1=new File(getApplicationContext().getFilesDir(),q.questionCode+".body1");
                         File f2=new File(getApplicationContext().getFilesDir(),q.questionCode+".extra2");
@@ -156,10 +209,11 @@ public class ContestActivity extends AppCompatActivity {
                         f2.delete();
                         recyclerAdapter.notifyDataSetChanged();
                     }
+                    //Delete contest data
                     File f=new File(getApplicationContext().getFilesDir(),code+".contest");
                     f.delete();
                     downAll=false;
-                    updateFab(true);
+                    updateFab(false);
                     showToast("All deleted",800);
                 }
                 else {
@@ -167,6 +221,7 @@ public class ContestActivity extends AppCompatActivity {
                     showToast("Preparing Download",800);
                     File file=new File(getApplicationContext().getFilesDir(),code+".contest");
 
+                    //Write contest details to file
                     try {
                         fileOutputStream = openFileOutput(code+".contest", Context.MODE_PRIVATE);
                         StringBuilder temp=new StringBuilder();
@@ -186,45 +241,14 @@ public class ContestActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    //Write all contests to its respective file
                     for(Question q:questions) {
                         downloadQuestion(q);
                     }
                 }
             }
         });
-
-        if(savedInstanceState==null||!savedInstanceState.containsKey("questions")) {
-            try {
-                File file = new File(getFilesDir(), code + ".contest");
-                if (!file.exists())
-                    throw new Exception("hoo");
-                FileInputStream fileInputStream=new FileInputStream(file);
-                BufferedReader bufferedReader=new BufferedReader(new InputStreamReader(fileInputStream,Charset.forName("UTF-8")));
-                StringBuilder temp=new StringBuilder();
-                String line;
-                name=bufferedReader.readLine();
-                startDate=bufferedReader.readLine();
-                endDate=bufferedReader.readLine();
-                while((line=bufferedReader.readLine())!=null) {
-                    String qname,qcode,submissions,percent;
-                    qname=line;
-                    qcode=bufferedReader.readLine();
-                    submissions=bufferedReader.readLine();
-                    percent=bufferedReader.readLine();
-                    Question question=new Question(qname,qcode,submissions,percent,sentCode,name);
-                    questions.add(question);
-                }
-                recyclerAdapter.notifyDataSetChanged();
-                updateFab(false);
-                fileInputStream.close();
-                bufferedReader.close();
-            }
-            catch (Exception e) {
-                swipeRefreshLayout.setRefreshing(true);
-                queue.add(jsonObjectRequest);
-            }
-
-        }
     }
 
     @Override
@@ -234,6 +258,7 @@ public class ContestActivity extends AppCompatActivity {
             queue.cancelAll(Request.Method.GET);
     }
 
+    //Add a Request to download and save a question, and refresh question data in recyclerview and fab
     public void downloadQuestion(final Question q) {
         File f1=new File(getApplicationContext().getFilesDir(),q.questionCode+".body1");
         if(f1.exists())
@@ -246,6 +271,8 @@ public class ContestActivity extends AppCompatActivity {
                     body = response.getString("body");
                     time_limit=response.getString("max_timelimit");
                     source_limit=response.getString("source_sizelimit");
+
+                    //Editorial is not essential
                     try {
                         editorial=response.getString("editorial_url");
                         editorial="\nEditorial: "+editorial;
@@ -305,6 +332,8 @@ public class ContestActivity extends AppCompatActivity {
                 showToast("Error in downloading "+q.questionTitle,1200);
             }
         });
+
+        //add request to download question in queue
         queue.add(jsonObjectRequest);
     }
 
@@ -357,27 +386,16 @@ public class ContestActivity extends AppCompatActivity {
             }
         }
         if(downAll) {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                fab.setImageDrawable(getDrawable(R.drawable.ic_delete_white_24dp));
-//            }
-//            else {
-                fab.setImageResource(R.drawable.ic_delete_white_24dp);
-//            }
+            fab.setImageResource(R.drawable.ic_delete_white_24dp);
             if(Build.VERSION.SDK_INT>=23)
-            fab.setBackgroundTintList(getColorStateList(R.color.delete_color));
+                fab.setBackgroundTintList(getColorStateList(R.color.delete_color));
             else
                 fab.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(211,47,47)));
         }
         else {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                fab.setImageDrawable(getDrawable(R.drawable.ic_file_download_white_24dp));
-//            }
-//            else {
-                fab.setImageResource(R.drawable.ic_file_download_white_24dp);
-//            }
-            if(Build.VERSION.SDK_INT>=23) {
+            fab.setImageResource(R.drawable.ic_file_download_white_24dp);
+            if(Build.VERSION.SDK_INT>=23)
                 fab.setBackgroundTintList(getColorStateList(R.color.download_color));
-            }
             else
                 fab.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(76,191,80)));
 

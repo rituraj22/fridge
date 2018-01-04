@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:padding="6dp"
         android:paddingTop="12dp"
-        android:text="Chef does XOR on a tree and falls from it (SMSTR)"
         android:textAlignment="center"
         android:textSize="20sp" />
     <LinearLayout
@@ -35,7 +34,6 @@
             android:layout_width="match_parent"
             android:textSize="16sp"
             android:layout_height="wrap_content"
-            android:text="Successful: 17 (93.234%)"
             android:layout_gravity="center"
             android:textAlignment="center"
             android:padding="8dp" />

@@ -21,10 +21,18 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+
+
         setSupportActionBar((Toolbar) findViewById(R.id.about_toolbar));
         getSupportActionBar().setTitle("About Fridge for Codechef");
-        String versionName = "";
+
         versionView=findViewById(R.id.app_version);
+        github=findViewById(R.id.github_button);
+        play=findViewById(R.id.play_button);
+        mail=findViewById(R.id.mail_button);
+
+        String versionName = "";
+
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             versionName = packageInfo.versionName;
@@ -34,9 +42,6 @@ public class AboutActivity extends AppCompatActivity {
             versionView.setText(getString(R.string.app_name));
         }
 
-        github=findViewById(R.id.github_button);
-        play=findViewById(R.id.play_button);
-        mail=findViewById(R.id.mail_button);
         github.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,11 +76,6 @@ public class AboutActivity extends AppCompatActivity {
 
             }
         });
-//
-//        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(60,60);
-//        github.setLayoutParams(params);
-//        play.setLayoutParams(params);
-//        mail.setLayoutParams(params);
     }
 
 

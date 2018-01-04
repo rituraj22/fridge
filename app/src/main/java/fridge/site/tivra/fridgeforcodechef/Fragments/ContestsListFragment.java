@@ -51,6 +51,7 @@ public class ContestsListFragment extends Fragment {
         // Required empty public constructor
     }
 
+    LinearLayoutManager linearLayoutManager;
     HtmlTextView textView;
     SwipeRefreshLayout swipeRefreshLayout;
     StringRequest stringRequest;
@@ -60,6 +61,9 @@ public class ContestsListFragment extends Fragment {
     ContestsListAdapter contestsListAdapter;
     ArrayList<Contest> contestArrayList;
     View rootView;
+
+    int topView;
+    int positionIndex;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +86,8 @@ public class ContestsListFragment extends Fragment {
         recyclerView = getActivity().findViewById(R.id.contests_recyclerview);
         contestsListAdapter = new ContestsListAdapter(contestArrayList);
         recyclerView.setAdapter(contestsListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        linearLayoutManager=new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
         swipeRefreshLayout = getActivity().findViewById(R.id.refresh_layout);
         queue = Volley.newRequestQueue(getContext());
         String url = "https://www.codechef.com/contests";
@@ -170,6 +175,7 @@ public class ContestsListFragment extends Fragment {
             searchView.clearFocus();
         }
         contestsListAdapter.setFilter(filter);
+        setScrollPosition();
         rootView.requestFocus();
     }
 
@@ -177,6 +183,10 @@ public class ContestsListFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("contests", contestArrayList);
+        rememberScrollPosition();
+        outState.putInt("pos",positionIndex);
+        outState.putInt("top",topView);
+
     }
 
     @Override
@@ -187,12 +197,18 @@ public class ContestsListFragment extends Fragment {
             contestsListAdapter = new ContestsListAdapter(contestArrayList);
             recyclerView.swapAdapter(contestsListAdapter, true);
             contestsListAdapter.setFilter(filter);
+            if(savedInstanceState.containsKey("pos")&&savedInstanceState.containsKey("top")) {
+                positionIndex=savedInstanceState.getInt("pos");
+                topView=savedInstanceState.getInt("top");
+                setScrollPosition();
+            }
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        rememberScrollPosition();
     }
 
     @Override
@@ -278,5 +294,17 @@ public class ContestsListFragment extends Fragment {
             }
         });
         searchView.clearFocus();
+    }
+
+    public void rememberScrollPosition() {
+        positionIndex= linearLayoutManager.findFirstVisibleItemPosition();
+        View startView = recyclerView.getChildAt(0);
+        topView = (startView == null) ? 0 : (startView.getTop() - recyclerView.getPaddingTop());
+    }
+
+    public void setScrollPosition() {
+        if (positionIndex!= -1) {
+            linearLayoutManager.scrollToPositionWithOffset(positionIndex, topView);
+        }
     }
 }

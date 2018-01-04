@@ -24,8 +24,7 @@
         android:textAlignment="center"
         android:padding="6dp"
         android:textSize="20sp"
-        android:id="@+id/contest_name"
-        android:text="November Challenge 2017 (NOV17)"/>
+        android:id="@+id/contest_name"/>
     </LinearLayout>
 
     <LinearLayout
@@ -37,7 +36,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="20/11/2017"
             android:textAlignment="center"
             android:textSize="16sp"
             android:padding="8dp"/>
@@ -47,7 +45,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:text="-"
             android:textAlignment="center"
             android:textSize="16sp"
             android:padding="8dp"/>
@@ -57,7 +54,6 @@
             android:textSize="16sp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="20/11/2017"
             android:textAlignment="center"
             android:padding="8dp" />
     </LinearLayout>

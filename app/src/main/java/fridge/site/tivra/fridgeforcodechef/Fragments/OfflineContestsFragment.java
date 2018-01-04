@@ -38,6 +38,7 @@ import fridge.site.tivra.fridgeforcodechef.R;
 
 
 public class OfflineContestsFragment extends Fragment {
+    LinearLayoutManager linearLayoutManager;
     RecyclerView recyclerView;
     ContestsListAdapter contestsListAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -46,6 +47,11 @@ public class OfflineContestsFragment extends Fragment {
     android.support.v7.widget.SearchView searchView;
     String filter;
     View rootView;
+
+
+    int positionIndex;
+    int topView;
+
 
     public OfflineContestsFragment() {
         // Required empty public constructor
@@ -73,7 +79,8 @@ public class OfflineContestsFragment extends Fragment {
         offlineContestsPlaceholder = getActivity().findViewById(R.id.offline_contests_placeholder);
         contestsListAdapter = new ContestsListAdapter(contests);
         recyclerView.setAdapter(contestsListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        linearLayoutManager=new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
         swipeRefreshLayout = getActivity().findViewById(R.id.offline_contests_swipe_refresh_layout);
         if (savedInstanceState == null || !savedInstanceState.containsKey("contests")) {
             swipeRefreshLayout.setRefreshing(true);
@@ -209,6 +216,9 @@ public class OfflineContestsFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("contests", contests);
+        rememberScrollPosition();
+        outState.putInt("pos",positionIndex);
+        outState.putInt("top",topView);
 
     }
 
@@ -220,6 +230,11 @@ public class OfflineContestsFragment extends Fragment {
             contestsListAdapter = new ContestsListAdapter(contests);
             recyclerView.swapAdapter(contestsListAdapter, false);
             contestsListAdapter.setFilter(filter);
+            if(savedInstanceState.containsKey("pos")&&savedInstanceState.containsKey("top")) {
+                positionIndex=savedInstanceState.getInt("pos");
+                topView=savedInstanceState.getInt("top");
+                setScrollPosition();
+            }
         }
     }
 
@@ -233,12 +248,14 @@ public class OfflineContestsFragment extends Fragment {
             searchView.clearFocus();
         }
         contestsListAdapter.setFilter(filter);
+        setScrollPosition();
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
+        rememberScrollPosition();
     }
 
     @Override
@@ -247,4 +264,16 @@ public class OfflineContestsFragment extends Fragment {
     }
 
 
+
+    public void rememberScrollPosition() {
+        positionIndex= linearLayoutManager.findFirstVisibleItemPosition();
+        View startView = recyclerView.getChildAt(0);
+        topView = (startView == null) ? 0 : (startView.getTop() - recyclerView.getPaddingTop());
+    }
+
+    public void setScrollPosition() {
+        if (positionIndex!= -1) {
+            linearLayoutManager.scrollToPositionWithOffset(positionIndex, topView);
+        }
+    }
 }

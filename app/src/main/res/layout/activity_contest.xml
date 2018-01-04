@@ -23,7 +23,6 @@
             android:layout_height="wrap_content"
             android:background="#000"
             android:padding="4dp"
-            android:text="05 Jan 2016 00:00:00  -  05 Jan 2016 00:00:00"
             android:textAlignment="center"
             android:textSize="15sp"
             android:visibility="gone" />
