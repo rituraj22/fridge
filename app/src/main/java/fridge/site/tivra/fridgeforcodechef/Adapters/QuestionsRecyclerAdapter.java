@@ -72,13 +72,11 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
         holder.questionCode=question.questionCode;
         File f = new File(holder.context.getFilesDir(),holder.questionCode+".body1");
         if(f.exists()) {
-//            holder.button.setImageDrawable(holder.context.getResources().getDrawable(R.drawable.ic_delete_white_24dp));
             holder.button.setImageResource(R.drawable.ic_delete_white_24dp);
             holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_delete));
         }
         else {
             holder.button.setImageResource(R.drawable.ic_file_download_white_24dp);
-//            holder.button.setImageDrawable(holder.context.getResources().getDrawable(R.drawable.ic_file_download_white_24dp));
             holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_download));
         }
         holder.button.setOnClickListener(new View.OnClickListener() {
@@ -91,7 +89,6 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
                     f.delete();
                     showToast(holder.context,"Deleted "+question.questionTitle,1000);
                     holder.button.setImageResource(R.drawable.ic_file_download_white_24dp);
-//                    holder.button.setImageDrawable(holder.context.getResources().getDrawable(R.drawable.ic_file_download_white_24dp));
                     holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_download));
                     return;
                 }
@@ -122,7 +119,6 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
                         String temp;
                         QuestionActivity.makeBody(bufferedReader,str);
                         holder.button.setImageResource(R.drawable.ic_delete_white_24dp);
-//                        holder.button.setImageDrawable(holder.context.getResources().getDrawable(R.drawable.ic_delete_white_24dp));
                         holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_delete));
 
                         bodyData=str.toString();

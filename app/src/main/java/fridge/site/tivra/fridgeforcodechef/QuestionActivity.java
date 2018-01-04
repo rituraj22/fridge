@@ -12,7 +12,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -96,7 +95,6 @@ public class QuestionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(bodyData!=null) {
-                    Log.d("logging tag","random");
                     try {
                         File f=new File(getApplicationContext().getFilesDir(),code+".body1");
                         if(f.exists()) {
@@ -214,7 +212,6 @@ public class QuestionActivity extends AppCompatActivity {
                 bodyView.setHtml(bodyData,new HtmlHttpImageGetter(bodyView));
                 textView.setText(extraData);
                 fab.setImageResource(R.drawable.ic_delete_white_24dp);
-//                fab.setImageDrawable(getDrawable(R.drawable.ic_delete_white_24dp));
                 if(android.os.Build.VERSION.SDK_INT>=23)
                     fab.setBackgroundTintList(getColorStateList(R.color.delete_color));
                 else
@@ -308,7 +305,6 @@ public class QuestionActivity extends AppCompatActivity {
             textView.setText(extraData);
             File f=new File(getApplicationContext().getFilesDir(),code+".body1");
             if(f.exists()) {
-//                fab.setImageDrawable(getApplicationContext().getDrawable(R.drawable.ic_delete_white_24dp));
                 fab.setImageResource(R.drawable.ic_delete_white_24dp);
                 if(android.os.Build.VERSION.SDK_INT>=23)
                     fab.setBackgroundTintList(getColorStateList(R.color.delete_color));

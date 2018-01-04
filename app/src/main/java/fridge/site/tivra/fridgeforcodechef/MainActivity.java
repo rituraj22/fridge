@@ -1,7 +1,6 @@
 package fridge.site.tivra.fridgeforcodechef;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -111,14 +110,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setCurrentItem(1);
 
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.main_action_menu,menu);
-//        final MenuItem searchItem=menu.findItem(R.id.action_search);
-//        final SearchView searchView= MenuItemCompat.get
-//        return true;
-//    }
 
 
     @Override
