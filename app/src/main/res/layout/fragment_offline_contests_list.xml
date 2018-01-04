@@ -1,38 +1,39 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/root_offline_contsets"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:layout_height="match_parent"
     tools:context="fridge.site.tivra.fridgeforcodechef.Fragments.QuestionsListFragment">
-<android.support.v4.widget.SwipeRefreshLayout
-    android:id="@+id/offline_contests_swipe_refresh_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/offline_contests_swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/offline_contests_recycler_view">
-        </android.support.v7.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/offline_contests_placeholder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:textSize="24sp"
-            android:padding="12dp"
-            android:text="Saved contests will appear here"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/offline_contests_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/offline_contests_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:text="Saved contests will appear here"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:visibility="gone" />
         </FrameLayout>
 
-</android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

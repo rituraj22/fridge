@@ -32,8 +32,8 @@ import java.util.ArrayList;
 
 import de.psdev.licensesdialog.LicensesDialog;
 import fridge.site.tivra.fridgeforcodechef.AboutActivity;
-import fridge.site.tivra.fridgeforcodechef.DataModels.Question;
 import fridge.site.tivra.fridgeforcodechef.Adapters.QuestionsLiteRecyclerAdapter;
+import fridge.site.tivra.fridgeforcodechef.DataModels.Question;
 import fridge.site.tivra.fridgeforcodechef.R;
 
 public class QuestionsListFragment extends Fragment {
@@ -77,7 +77,7 @@ public class QuestionsListFragment extends Fragment {
         offlineQuestionsPlaceholder = getActivity().findViewById(R.id.offline_questions_placeholder);
         questionsRecyclerAdapter = new QuestionsLiteRecyclerAdapter(questions);
         recyclerView.setAdapter(questionsRecyclerAdapter);
-        linearLayoutManager=new LinearLayoutManager(getActivity());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         swipeRefreshLayout = getActivity().findViewById(R.id.offline_questions_swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -141,8 +141,8 @@ public class QuestionsListFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("questions", questions);
         rememberScrollPosition();
-        outState.putInt("pos",positionIndex);
-        outState.putInt("top",topView);
+        outState.putInt("pos", positionIndex);
+        outState.putInt("top", topView);
     }
 
 
@@ -200,9 +200,9 @@ public class QuestionsListFragment extends Fragment {
             questionsRecyclerAdapter = new QuestionsLiteRecyclerAdapter(questions);
             recyclerView.swapAdapter(questionsRecyclerAdapter, true);
             questionsRecyclerAdapter.setFilter(filter);
-            if(savedInstanceState.containsKey("pos")&&savedInstanceState.containsKey("top")) {
-                positionIndex=savedInstanceState.getInt("pos");
-                topView=savedInstanceState.getInt("top");
+            if (savedInstanceState.containsKey("pos") && savedInstanceState.containsKey("top")) {
+                positionIndex = savedInstanceState.getInt("pos");
+                topView = savedInstanceState.getInt("top");
                 setScrollPosition();
             }
         }
@@ -252,13 +252,13 @@ public class QuestionsListFragment extends Fragment {
     }
 
     public void rememberScrollPosition() {
-        positionIndex= linearLayoutManager.findFirstVisibleItemPosition();
+        positionIndex = linearLayoutManager.findFirstVisibleItemPosition();
         View startView = recyclerView.getChildAt(0);
         topView = (startView == null) ? 0 : (startView.getTop() - recyclerView.getPaddingTop());
     }
 
     public void setScrollPosition() {
-        if (positionIndex!= -1) {
+        if (positionIndex != -1) {
             linearLayoutManager.scrollToPositionWithOffset(positionIndex, topView);
         }
     }

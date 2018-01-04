@@ -38,8 +38,8 @@ import java.util.ArrayList;
 
 import de.psdev.licensesdialog.LicensesDialog;
 import fridge.site.tivra.fridgeforcodechef.AboutActivity;
-import fridge.site.tivra.fridgeforcodechef.DataModels.Contest;
 import fridge.site.tivra.fridgeforcodechef.Adapters.ContestsListAdapter;
+import fridge.site.tivra.fridgeforcodechef.DataModels.Contest;
 import fridge.site.tivra.fridgeforcodechef.R;
 
 public class ContestsListFragment extends Fragment {
@@ -80,13 +80,13 @@ public class ContestsListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
-        rootView=getActivity().findViewById(R.id.root_contests);
+        rootView = getActivity().findViewById(R.id.root_contests);
         contestArrayList = new ArrayList<Contest>();
         contestsPlaceholder = getActivity().findViewById(R.id.online_contests_placeholder);
         recyclerView = getActivity().findViewById(R.id.contests_recyclerview);
         contestsListAdapter = new ContestsListAdapter(contestArrayList);
         recyclerView.setAdapter(contestsListAdapter);
-        linearLayoutManager=new LinearLayoutManager(getActivity());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         swipeRefreshLayout = getActivity().findViewById(R.id.refresh_layout);
         queue = Volley.newRequestQueue(getContext());
@@ -110,7 +110,7 @@ public class ContestsListFragment extends Fragment {
             queue.add(stringRequest);
             swipeRefreshLayout.setRefreshing(true);
         }
-        if(searchView!=null)
+        if (searchView != null)
             searchView.clearFocus();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -184,8 +184,8 @@ public class ContestsListFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("contests", contestArrayList);
         rememberScrollPosition();
-        outState.putInt("pos",positionIndex);
-        outState.putInt("top",topView);
+        outState.putInt("pos", positionIndex);
+        outState.putInt("top", topView);
 
     }
 
@@ -197,9 +197,9 @@ public class ContestsListFragment extends Fragment {
             contestsListAdapter = new ContestsListAdapter(contestArrayList);
             recyclerView.swapAdapter(contestsListAdapter, true);
             contestsListAdapter.setFilter(filter);
-            if(savedInstanceState.containsKey("pos")&&savedInstanceState.containsKey("top")) {
-                positionIndex=savedInstanceState.getInt("pos");
-                topView=savedInstanceState.getInt("top");
+            if (savedInstanceState.containsKey("pos") && savedInstanceState.containsKey("top")) {
+                positionIndex = savedInstanceState.getInt("pos");
+                topView = savedInstanceState.getInt("top");
                 setScrollPosition();
             }
         }
@@ -297,13 +297,13 @@ public class ContestsListFragment extends Fragment {
     }
 
     public void rememberScrollPosition() {
-        positionIndex= linearLayoutManager.findFirstVisibleItemPosition();
+        positionIndex = linearLayoutManager.findFirstVisibleItemPosition();
         View startView = recyclerView.getChildAt(0);
         topView = (startView == null) ? 0 : (startView.getTop() - recyclerView.getPaddingTop());
     }
 
     public void setScrollPosition() {
-        if (positionIndex!= -1) {
+        if (positionIndex != -1) {
             linearLayoutManager.scrollToPositionWithOffset(positionIndex, topView);
         }
     }

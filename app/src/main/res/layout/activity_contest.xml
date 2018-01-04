@@ -46,14 +46,14 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/contest_recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <TextView
                 android:id="@+id/contest_placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
                 android:layout_gravity="center"
+                android:textAlignment="center"
                 android:visibility="gone" />
         </FrameLayout>
 
@@ -67,11 +67,11 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="18dp"
         android:clickable="true"
-        app:srcCompat="@drawable/ic_file_download_white_24dp"
         app:elevation="6dp"
         app:layout_anchor="@id/contest_swipe_refresh_layout"
         app:layout_anchorGravity="bottom|right|end"
-        app:pressedTranslationZ="12dp" />
+        app:pressedTranslationZ="12dp"
+        app:srcCompat="@drawable/ic_file_download_white_24dp" />
 
 
 </android.support.design.widget.CoordinatorLayout>

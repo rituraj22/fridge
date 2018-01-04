@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
  * Created by cogito on 12/17/17.
  */
 
-public class Question implements Parcelable,Comparable<Question>{
+public class Question implements Parcelable, Comparable<Question> {
     public String questionName;
     public String successDetails;
     public String contestCode;
@@ -17,20 +17,20 @@ public class Question implements Parcelable,Comparable<Question>{
     public int numSub;
     public String percent;
     public String questionCode;
-    public Question(String question,String qcode,String submission,String percent,String contestCode,String contestName) {
-        questionTitle=question;
-        questionCode=qcode;
-        try{
-            numSub=Integer.parseInt(submission.trim());
+
+    public Question(String question, String qcode, String submission, String percent, String contestCode, String contestName) {
+        questionTitle = question;
+        questionCode = qcode;
+        try {
+            numSub = Integer.parseInt(submission.trim());
+        } catch (Exception e) {
+            numSub = 0;
         }
-        catch (Exception e) {
-            numSub=0;
-        }
-        this.percent=percent;
-        this.questionName=question+"  ("+qcode+") ";
-        this.successDetails="Successful: "+submission+" ("+percent+"%) ";
-        this.contestCode=contestCode;
-        this.contestName=contestName;
+        this.percent = percent;
+        this.questionName = question + "  (" + qcode + ") ";
+        this.successDetails = "Successful: " + submission + " (" + percent + "%) ";
+        this.contestCode = contestCode;
+        this.contestName = contestName;
     }
 
     protected Question(Parcel in) {
@@ -39,8 +39,8 @@ public class Question implements Parcelable,Comparable<Question>{
         contestName = in.readString();
         questionTitle = in.readString();
         questionCode = in.readString();
-        contestCode=in.readString();
-        numSub=in.readInt();
+        contestCode = in.readString();
+        numSub = in.readInt();
     }
 
     public static final Creator<Question> CREATOR = new Creator<Question>() {
@@ -74,6 +74,6 @@ public class Question implements Parcelable,Comparable<Question>{
 
     @Override
     public int compareTo(@NonNull Question question) {
-        return (this.numSub-question.numSub);
+        return (this.numSub - question.numSub);
     }
 }

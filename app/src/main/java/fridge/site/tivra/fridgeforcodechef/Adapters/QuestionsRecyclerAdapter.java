@@ -41,96 +41,95 @@ import fridge.site.tivra.fridgeforcodechef.R;
 public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecyclerAdapter.QuestionHolder> {
     public ArrayList<Question> questions;
     private Toast mToastToShow = null;
-    public String bodyData,extraData;
+    public String bodyData, extraData;
 
     public QuestionsRecyclerAdapter(ArrayList<Question> questions) {
-        this.questions=questions;
+        this.questions = questions;
     }
+
     @Override
     public QuestionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.question_card,parent,false);
-        QuestionHolder qh=new QuestionHolder(v);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_card, parent, false);
+        QuestionHolder qh = new QuestionHolder(v);
         return qh;
     }
 
     @Override
     public void onBindViewHolder(final QuestionHolder holder, final int position) {
-        final Question question=questions.get(position);
+        final Question question = questions.get(position);
         holder.questionName.setText(question.questionName);
         holder.successDetails.setText(question.successDetails);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(holder.context,QuestionActivity.class);
-                i.putExtra("code",questions.get(position).questionCode);
-                i.putExtra("name",questions.get(position).questionTitle);
-                i.putExtra("contest",questions.get(position).contestCode);
-                i.putExtra("cname",questions.get(position).contestName);
+                Intent i = new Intent(holder.context, QuestionActivity.class);
+                i.putExtra("code", questions.get(position).questionCode);
+                i.putExtra("name", questions.get(position).questionTitle);
+                i.putExtra("contest", questions.get(position).contestCode);
+                i.putExtra("cname", questions.get(position).contestName);
                 holder.context.startActivity(i);
             }
         });
-        holder.questionCode=question.questionCode;
-        File f = new File(holder.context.getFilesDir(),holder.questionCode+".body1");
-        if(f.exists()) {
+        holder.questionCode = question.questionCode;
+        File f = new File(holder.context.getFilesDir(), holder.questionCode + ".body1");
+        if (f.exists()) {
             holder.button.setImageResource(R.drawable.ic_delete_white_24dp);
             holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_delete));
-        }
-        else {
+        } else {
             holder.button.setImageResource(R.drawable.ic_file_download_white_24dp);
             holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_download));
         }
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                File f = new File(holder.context.getFilesDir(),holder.questionCode+".body1");
-                if(f.exists()) {
+                File f = new File(holder.context.getFilesDir(), holder.questionCode + ".body1");
+                if (f.exists()) {
                     f.delete();
-                    f=new File(holder.context.getFilesDir(),holder.questionCode+".extra2");
+                    f = new File(holder.context.getFilesDir(), holder.questionCode + ".extra2");
                     f.delete();
-                    showToast(holder.context,"Deleted "+question.questionTitle,1000);
+                    showToast(holder.context, "Deleted " + question.questionTitle, 1000);
                     holder.button.setImageResource(R.drawable.ic_file_download_white_24dp);
                     holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_download));
                     return;
                 }
                 holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_progress));
-                holder.queue= Volley.newRequestQueue(holder.context);
-                String apiurl="https://www.codechef.com/api/contests/"+question.contestCode+"/problems/"+holder.questionCode;
-                final JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, apiurl, null, new Response.Listener<JSONObject>() {
+                holder.queue = Volley.newRequestQueue(holder.context);
+                String apiurl = "https://www.codechef.com/api/contests/" + question.contestCode + "/problems/" + holder.questionCode;
+                final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, apiurl, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        String body= "",time_limit="",source_limit="",editorial="";
+                        String body = "", time_limit = "", source_limit = "", editorial = "";
                         try {
                             body = response.getString("body");
-                            time_limit=response.getString("max_timelimit");
-                            source_limit=response.getString("source_sizelimit");
+                            time_limit = response.getString("max_timelimit");
+                            source_limit = response.getString("source_sizelimit");
                             try {
-                                editorial=response.getString("editorial_url");
-                                editorial="\nEditorial: "+editorial;
-                            }
-                            catch(JSONException e) {
+                                editorial = response.getString("editorial_url");
+                                editorial = "\nEditorial: " + editorial;
+                            } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        BufferedReader bufferedReader=new BufferedReader(new StringReader(body));
-                        StringBuilder str=new StringBuilder("");
+                        BufferedReader bufferedReader = new BufferedReader(new StringReader(body));
+                        StringBuilder str = new StringBuilder("");
                         String temp;
-                        QuestionActivity.makeBody(bufferedReader,str);
+                        QuestionActivity.makeBody(bufferedReader, str);
                         holder.button.setImageResource(R.drawable.ic_delete_white_24dp);
                         holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_delete));
 
-                        bodyData=str.toString();
-                        extraData="Time Limit: "+time_limit+" sec  Source limit: "+source_limit+" bytes"+editorial;
-                        File file=new File(holder.context.getFilesDir(),holder.questionCode+".body1");
-                        File file2=new File(holder.context.getFilesDir(),holder.questionCode+".extra2");
+                        bodyData = str.toString();
+                        extraData = "Time Limit: " + time_limit + " sec  Source limit: " + source_limit + " bytes" + editorial;
+                        File file = new File(holder.context.getFilesDir(), holder.questionCode + ".body1");
+                        File file2 = new File(holder.context.getFilesDir(), holder.questionCode + ".extra2");
                         try {
-                            FileOutputStream fileOutputStream=holder.context.openFileOutput(holder.questionCode+".body1", Context.MODE_PRIVATE);
+                            FileOutputStream fileOutputStream = holder.context.openFileOutput(holder.questionCode + ".body1", Context.MODE_PRIVATE);
                             fileOutputStream.write(bodyData.getBytes(Charset.forName("UTF-8")));
                             fileOutputStream.close();
-                            FileOutputStream fileOutputStream1=holder.context.openFileOutput(holder.questionCode+".extra2",Context.MODE_PRIVATE);
-                            fileOutputStream1.write((question.questionName+"\n"+question.contestName+"\n"+extraData).getBytes(Charset.forName("UTF-8")));
+                            FileOutputStream fileOutputStream1 = holder.context.openFileOutput(holder.questionCode + ".extra2", Context.MODE_PRIVATE);
+                            fileOutputStream1.write((question.questionName + "\n" + question.contestName + "\n" + extraData).getBytes(Charset.forName("UTF-8")));
                             fileOutputStream1.close();
 
                         } catch (FileNotFoundException e) {
@@ -143,7 +142,7 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        showToast(holder.context,"An Error Occured",1000);
+                        showToast(holder.context, "An Error Occured", 1000);
                     }
                 });
                 holder.queue.add(jsonObjectRequest);
@@ -156,7 +155,7 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
         return questions.size();
     }
 
-    public void showToast(Context context,String message,int timeInMSecs) {
+    public void showToast(Context context, String message, int timeInMSecs) {
         if (mToastToShow != null) {
             mToastToShow.cancel();
         }
@@ -190,9 +189,9 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
     @Override
     public void onViewRecycled(QuestionHolder holder) {
         super.onViewRecycled(holder);
-        if(holder.queue!=null)
+        if (holder.queue != null)
             holder.queue.cancelAll(Request.Method.GET);
-        holder.queue=null;
+        holder.queue = null;
     }
 
     public class QuestionHolder extends RecyclerView.ViewHolder {
@@ -200,13 +199,14 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
         private final Context context;
         public AppCompatImageButton button;
         public String questionCode;
-        public TextView questionName,successDetails;
+        public TextView questionName, successDetails;
+
         public QuestionHolder(View itemView) {
             super(itemView);
-            context=itemView.getContext();
-            questionName=itemView.findViewById(R.id.question_name);
-            successDetails=itemView.findViewById(R.id.success_details);
-            button=itemView.findViewById(R.id.download_button);
+            context = itemView.getContext();
+            questionName = itemView.findViewById(R.id.question_name);
+            successDetails = itemView.findViewById(R.id.success_details);
+            button = itemView.findViewById(R.id.download_button);
         }
     }
 }

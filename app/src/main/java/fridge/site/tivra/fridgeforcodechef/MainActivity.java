@@ -1,6 +1,7 @@
 package fridge.site.tivra.fridgeforcodechef;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,10 +9,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -39,12 +38,12 @@ public class MainActivity extends AppCompatActivity {
             // Show dialog to allow users to install, update, or otherwise enable Google Play services.
             GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
             int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-            Log.e("res",""+resultCode);
+            Log.e("res", "" + resultCode);
             if (apiAvailability.isUserResolvableError(resultCode)) {
                 apiAvailability.getErrorDialog(this, resultCode, 9000)
                         .show();
             } else {
-                Log.i("HFJHF", "This device is not supported.");
+                Log.i("Unsupported", "This device is not supported.");
             }
         } catch (GooglePlayServicesNotAvailableException e) {
             Log.e("SecurityException", "Google Play Services not available.");

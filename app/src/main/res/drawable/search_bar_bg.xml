@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:bottom="6dp"
         android:left="6dip"
         android:right="6dip"
-        android:top="6dp"
-        android:bottom="6dp">
+        android:top="6dp">
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
             android:shape="rectangle">
             <stroke

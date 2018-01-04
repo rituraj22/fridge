@@ -9,17 +9,18 @@ import java.util.ArrayList;
  * Created by cogito on 12/17/17.
  */
 
-public class Contest implements Parcelable{
-    public String contestName,startDate,endDate,contestCode;
+public class Contest implements Parcelable {
+    public String contestName, startDate, endDate, contestCode;
     public int flag;
     private ArrayList<Question> questions;
-    public Contest(String contestCode,String contestName,String startDate,String endDate,int flag) {
-        this.contestCode=contestCode;
-        this.contestName=contestName;
-        this.startDate=startDate;
-        this.endDate=endDate;
-        this.questions=questions;
-        this.flag=flag;
+
+    public Contest(String contestCode, String contestName, String startDate, String endDate, int flag) {
+        this.contestCode = contestCode;
+        this.contestName = contestName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.questions = questions;
+        this.flag = flag;
     }
 
     protected Contest(Parcel in) {

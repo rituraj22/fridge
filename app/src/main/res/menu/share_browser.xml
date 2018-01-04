@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_share"
         android:icon="@drawable/ic_share_white_24dp"
         android:title="Open Browser"
-        app:showAsAction="always">
-    </item>
+        app:showAsAction="always"></item>
     <item
         android:id="@+id/action_network"
         android:icon="@drawable/ic_public_white_24dp"
         android:title="Share Question"
-        app:showAsAction="always">
-    </item>
+        app:showAsAction="always"></item>
 </menu>

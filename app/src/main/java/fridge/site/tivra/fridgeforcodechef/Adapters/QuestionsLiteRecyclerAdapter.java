@@ -26,13 +26,13 @@ import fridge.site.tivra.fridgeforcodechef.R;
  */
 
 public class QuestionsLiteRecyclerAdapter extends RecyclerView.Adapter<QuestionsLiteRecyclerAdapter.QuestionHolder> {
-    public ArrayList<Question> questions,filtered;
+    public ArrayList<Question> questions, filtered;
     private Toast mToastToShow = null;
     public String bodyData, extraData;
 
     public QuestionsLiteRecyclerAdapter(ArrayList<Question> questions) {
         this.questions = questions;
-        this.filtered=questions;
+        this.filtered = questions;
     }
 
     @Override
@@ -143,24 +143,25 @@ public class QuestionsLiteRecyclerAdapter extends RecyclerView.Adapter<Questions
             button = itemView.findViewById(R.id.download_button);
         }
     }
+
     public void setFilter(String str) {
-        if(str==null)
+        if (str == null)
             return;
-        str=str.toLowerCase();
-        ArrayList<Question> temp=new ArrayList<Question>();
-        for(Question c:questions) {
-            if(c.questionName.toLowerCase().equals(str)||c.questionCode.toLowerCase().equals(str)||c.contestName.toLowerCase().equals(str)||c.contestCode.toLowerCase().equals(str)) {
+        str = str.toLowerCase();
+        ArrayList<Question> temp = new ArrayList<Question>();
+        for (Question c : questions) {
+            if (c.questionName.toLowerCase().equals(str) || c.questionCode.toLowerCase().equals(str) || c.contestName.toLowerCase().equals(str) || c.contestCode.toLowerCase().equals(str)) {
                 temp.add(c);
             }
         }
-        for(Question c:questions) {
-            if(c.questionName.toLowerCase().contains(str)||c.questionCode.toLowerCase().contains(str)||c.contestName.toLowerCase().contains(str)||c.contestCode.toLowerCase().contains(str)) {
-                if(!(c.questionName.toLowerCase().equals(str)||c.questionCode.toLowerCase().equals(str)||c.contestName.toLowerCase().equals(str)||c.contestCode.toLowerCase().equals(str))) {
+        for (Question c : questions) {
+            if (c.questionName.toLowerCase().contains(str) || c.questionCode.toLowerCase().contains(str) || c.contestName.toLowerCase().contains(str) || c.contestCode.toLowerCase().contains(str)) {
+                if (!(c.questionName.toLowerCase().equals(str) || c.questionCode.toLowerCase().equals(str) || c.contestName.toLowerCase().equals(str) || c.contestCode.toLowerCase().equals(str))) {
                     temp.add(c);
                 }
             }
         }
-        filtered=temp;
+        filtered = temp;
         notifyDataSetChanged();
     }
 }

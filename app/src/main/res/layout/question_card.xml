@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp"
     android:layout_margin="12dp"
-    android:foreground="?android:attr/selectableItemBackground"
     android:background="@drawable/bg_card"
-    android:orientation="vertical">
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/question_name"
@@ -17,26 +17,29 @@
         android:paddingTop="12dp"
         android:textAlignment="center"
         android:textSize="20sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <android.support.v7.widget.AppCompatImageButton
             android:id="@+id/download_button"
-            app:srcCompat="@drawable/ic_file_download_white_24dp"
-            android:background="@drawable/round_button_download"
             android:layout_width="64dp"
             android:layout_height="64dp"
+            android:background="@drawable/round_button_download"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            app:srcCompat="@drawable/ic_file_download_white_24dp" />
+
         <TextView
             android:id="@+id/success_details"
             android:layout_width="match_parent"
-            android:textSize="16sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:padding="8dp"
             android:textAlignment="center"
-            android:padding="8dp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
 

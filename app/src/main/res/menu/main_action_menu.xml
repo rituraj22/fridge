@@ -1,26 +1,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_search"
-        android:title="Search"
+    <item
+        android:id="@+id/action_search"
         style="SearchViewStyle"
+        android:title="Search"
         app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
     <item
         android:id="@+id/about_button"
         android:title="About"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
 
     <item
         android:id="@+id/share_menu_main"
         android:title="Share App"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
 
     <item
         android:id="@+id/license_button"
         android:title="Open source licenses"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
 </menu>

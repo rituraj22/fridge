@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,8 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AboutActivity extends AppCompatActivity {
-    ImageView github,play,mail;
+    ImageView github, play, mail;
     TextView versionView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,17 +27,17 @@ public class AboutActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.about_toolbar));
         getSupportActionBar().setTitle("About Fridge for Codechef");
 
-        versionView=findViewById(R.id.app_version);
-        github=findViewById(R.id.github_button);
-        play=findViewById(R.id.play_button);
-        mail=findViewById(R.id.mail_button);
+        versionView = findViewById(R.id.app_version);
+        github = findViewById(R.id.github_button);
+        play = findViewById(R.id.play_button);
+        mail = findViewById(R.id.mail_button);
 
         String versionName = "";
 
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             versionName = packageInfo.versionName;
-            versionView.setText("Version : "+versionName);
+            versionView.setText("Version : " + versionName);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             versionView.setText(getString(R.string.app_name));
@@ -65,13 +66,13 @@ public class AboutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO change email
-                Intent i=new Intent(Intent.ACTION_SENDTO);
-                String [] adresses=new String[1];
-                adresses[0]="rituraj22in@gmail.com";
+                Intent i = new Intent(Intent.ACTION_SENDTO);
+                String[] adresses = new String[1];
+                adresses[0] = "rituraj22in@gmail.com";
                 i.setData(Uri.parse("mailto:"));
-                i.putExtra(Intent.EXTRA_EMAIL,adresses);
-                i.putExtra(Intent.EXTRA_SUBJECT,"Feedback regarding Fridge for Codechef");
-                if(i.resolveActivity(getPackageManager())!=null)
+                i.putExtra(Intent.EXTRA_EMAIL, adresses);
+                i.putExtra(Intent.EXTRA_SUBJECT, "Feedback regarding Fridge for Codechef");
+                if (i.resolveActivity(getPackageManager()) != null)
                     startActivity(i);
 
             }
@@ -81,8 +82,8 @@ public class AboutActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater=getMenuInflater();
-        inflater.inflate(R.menu.only_share,menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.only_share, menu);
         return true;
     }
 

@@ -32,8 +32,8 @@ import java.util.ArrayList;
 
 import de.psdev.licensesdialog.LicensesDialog;
 import fridge.site.tivra.fridgeforcodechef.AboutActivity;
-import fridge.site.tivra.fridgeforcodechef.DataModels.Contest;
 import fridge.site.tivra.fridgeforcodechef.Adapters.ContestsListAdapter;
+import fridge.site.tivra.fridgeforcodechef.DataModels.Contest;
 import fridge.site.tivra.fridgeforcodechef.R;
 
 
@@ -79,7 +79,7 @@ public class OfflineContestsFragment extends Fragment {
         offlineContestsPlaceholder = getActivity().findViewById(R.id.offline_contests_placeholder);
         contestsListAdapter = new ContestsListAdapter(contests);
         recyclerView.setAdapter(contestsListAdapter);
-        linearLayoutManager=new LinearLayoutManager(getActivity());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         swipeRefreshLayout = getActivity().findViewById(R.id.offline_contests_swipe_refresh_layout);
         if (savedInstanceState == null || !savedInstanceState.containsKey("contests")) {
@@ -217,8 +217,8 @@ public class OfflineContestsFragment extends Fragment {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("contests", contests);
         rememberScrollPosition();
-        outState.putInt("pos",positionIndex);
-        outState.putInt("top",topView);
+        outState.putInt("pos", positionIndex);
+        outState.putInt("top", topView);
 
     }
 
@@ -230,9 +230,9 @@ public class OfflineContestsFragment extends Fragment {
             contestsListAdapter = new ContestsListAdapter(contests);
             recyclerView.swapAdapter(contestsListAdapter, false);
             contestsListAdapter.setFilter(filter);
-            if(savedInstanceState.containsKey("pos")&&savedInstanceState.containsKey("top")) {
-                positionIndex=savedInstanceState.getInt("pos");
-                topView=savedInstanceState.getInt("top");
+            if (savedInstanceState.containsKey("pos") && savedInstanceState.containsKey("top")) {
+                positionIndex = savedInstanceState.getInt("pos");
+                topView = savedInstanceState.getInt("top");
                 setScrollPosition();
             }
         }
@@ -264,15 +264,14 @@ public class OfflineContestsFragment extends Fragment {
     }
 
 
-
     public void rememberScrollPosition() {
-        positionIndex= linearLayoutManager.findFirstVisibleItemPosition();
+        positionIndex = linearLayoutManager.findFirstVisibleItemPosition();
         View startView = recyclerView.getChildAt(0);
         topView = (startView == null) ? 0 : (startView.getTop() - recyclerView.getPaddingTop());
     }
 
     public void setScrollPosition() {
-        if (positionIndex!= -1) {
+        if (positionIndex != -1) {
             linearLayoutManager.scrollToPositionWithOffset(positionIndex, topView);
         }
     }
