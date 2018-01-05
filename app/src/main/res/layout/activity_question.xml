@@ -53,6 +53,7 @@
                 <org.sufficientlysecure.htmltextview.HtmlTextView
                     android:id="@+id/question_body"
                     android:layout_width="match_parent"
+                    android:textColor="#FFF"
                     android:layout_height="match_parent"
                     android:padding="8dp" />
 
