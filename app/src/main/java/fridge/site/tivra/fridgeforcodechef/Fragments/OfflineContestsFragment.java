@@ -77,7 +77,7 @@ public class OfflineContestsFragment extends Fragment {
         recyclerView = getActivity().findViewById(R.id.offline_contests_recycler_view);
         contests = new ArrayList<Contest>();
         offlineContestsPlaceholder = getActivity().findViewById(R.id.offline_contests_placeholder);
-        contestsListAdapter = new ContestsListAdapter(contests);
+        contestsListAdapter = new ContestsListAdapter(contests,getActivity());
         recyclerView.setAdapter(contestsListAdapter);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -118,7 +118,7 @@ public class OfflineContestsFragment extends Fragment {
             }
         }
         swipeRefreshLayout.setRefreshing(false);
-        contestsListAdapter = new ContestsListAdapter(contests);
+        contestsListAdapter = new ContestsListAdapter(contests,getActivity());
         recyclerView.swapAdapter(contestsListAdapter, true);
         if (filter != null)
             contestsListAdapter.setFilter(filter);
@@ -227,7 +227,7 @@ public class OfflineContestsFragment extends Fragment {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null && savedInstanceState.containsKey("contests")) {
             contests = savedInstanceState.getParcelableArrayList("contests");
-            contestsListAdapter = new ContestsListAdapter(contests);
+            contestsListAdapter = new ContestsListAdapter(contests,getActivity());
             recyclerView.swapAdapter(contestsListAdapter, false);
             contestsListAdapter.setFilter(filter);
             if (savedInstanceState.containsKey("pos") && savedInstanceState.containsKey("top")) {
