@@ -7,8 +7,8 @@ android {
         applicationId "fridge.site.tivra.fridgeforcodechef"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 18
-        versionName "1.4"
+        versionCode 19
+        versionName "1.4.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
