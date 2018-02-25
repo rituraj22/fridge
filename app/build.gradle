@@ -7,14 +7,21 @@ android {
         applicationId "fridge.site.tivra.fridgeforcodechef"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 19
-        versionName "1.4.1"
+        versionCode 21
+        versionName "1.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -26,16 +33,16 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:27.+'
+
+    compile 'com.android.support:appcompat-v7:27.0.2'
     compile 'com.android.support:design:27.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.sufficientlysecure:html-textview:3.5'
     compile 'com.android.volley:volley:1.1.0'
-    compile 'com.android.support:recyclerview-v7:27.+'
-    compile 'com.google.android.gms:play-services-auth:11.6.0'
+    compile 'com.android.support:recyclerview-v7:27.0.2'
+    compile 'com.google.android.gms:play-services-auth:11.8.0'
     compile 'org.jsoup:jsoup:1.11.2'
     compile('de.psdev.licensesdialog:licensesdialog:1.8.3')
-
 
 
 

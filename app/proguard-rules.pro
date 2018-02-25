@@ -25,9 +25,13 @@
 #-renamesourcefileattribute SourceFile
 -keep class org.apache.commons.logging.**
 -dontskipnonpubliclibraryclasses
--dontobfuscate
 -forceprocessing
 -optimizationpasses 5
+
+-keepclassmembers class ** {
+  @com.google.common.eventbus.Subscribe <methods>;
+}
+-keep class android.support.v7.widget.SearchView { *; }
 
 -keep class * extends android.app.Activity
 -assumenosideeffects class android.util.Log {

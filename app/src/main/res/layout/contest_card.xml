@@ -43,7 +43,6 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/seperator_dates"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
