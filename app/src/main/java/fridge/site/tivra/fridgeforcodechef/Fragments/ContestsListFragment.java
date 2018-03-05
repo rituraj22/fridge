@@ -32,11 +32,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.ArrayList;
 
-import de.psdev.licensesdialog.LicensesDialog;
 import fridge.site.tivra.fridgeforcodechef.AboutActivity;
 import fridge.site.tivra.fridgeforcodechef.Adapters.ContestsListAdapter;
 import fridge.site.tivra.fridgeforcodechef.DataModels.Contest;
@@ -52,7 +50,6 @@ public class ContestsListFragment extends Fragment {
     }
 
     LinearLayoutManager linearLayoutManager;
-    HtmlTextView textView;
     SwipeRefreshLayout swipeRefreshLayout;
     StringRequest stringRequest;
     RequestQueue queue;
@@ -84,7 +81,7 @@ public class ContestsListFragment extends Fragment {
         contestArrayList = new ArrayList<Contest>();
         contestsPlaceholder = getActivity().findViewById(R.id.online_contests_placeholder);
         recyclerView = getActivity().findViewById(R.id.contests_recyclerview);
-        contestsListAdapter = new ContestsListAdapter(contestArrayList,getActivity());
+        contestsListAdapter = new ContestsListAdapter(contestArrayList, getActivity());
         recyclerView.setAdapter(contestsListAdapter);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -143,7 +140,7 @@ public class ContestsListFragment extends Fragment {
             }
             flag++;
         }
-        contestsListAdapter = new ContestsListAdapter(contestArrayList,getActivity());
+        contestsListAdapter = new ContestsListAdapter(contestArrayList, getActivity());
         recyclerView.swapAdapter(contestsListAdapter, false);
         if (filter != null)
             contestsListAdapter.setFilter(filter);
@@ -167,7 +164,7 @@ public class ContestsListFragment extends Fragment {
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             contestsPlaceholder.setVisibility(View.GONE);
-            contestsListAdapter = new ContestsListAdapter(contestArrayList,getActivity());
+            contestsListAdapter = new ContestsListAdapter(contestArrayList, getActivity());
             recyclerView.swapAdapter(contestsListAdapter, true);
         }
         if (searchView != null) {
@@ -194,7 +191,7 @@ public class ContestsListFragment extends Fragment {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null && savedInstanceState.containsKey("contests")) {
             contestArrayList = savedInstanceState.getParcelableArrayList("contests");
-            contestsListAdapter = new ContestsListAdapter(contestArrayList,getActivity());
+            contestsListAdapter = new ContestsListAdapter(contestArrayList, getActivity());
             recyclerView.swapAdapter(contestsListAdapter, true);
             contestsListAdapter.setFilter(filter);
             if (savedInstanceState.containsKey("pos") && savedInstanceState.containsKey("top")) {
@@ -236,10 +233,9 @@ public class ContestsListFragment extends Fragment {
                 getActivity().startActivity(i);
                 break;
             case R.id.license_button:
-                new LicensesDialog.Builder(getActivity())
-                        .setNotices(R.raw.notices)
-                        .build()
-                        .show();
+                LicenseFragment alertDialog = new LicenseFragment();
+                alertDialog.setCancelable(true);
+                alertDialog.show(getActivity().getSupportFragmentManager(), "Tag");
                 break;
 
             case R.id.share_menu_main:

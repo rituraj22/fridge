@@ -1,14 +1,18 @@
 package fridge.site.tivra.fridgeforcodechef;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.CalendarContract;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,11 +44,15 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
 
 import fridge.site.tivra.fridgeforcodechef.Adapters.QuestionsRecyclerAdapter;
 import fridge.site.tivra.fridgeforcodechef.DataModels.Question;
+import fridge.site.tivra.fridgeforcodechef.Fragments.DivisionDialogFragment;
+
+import static fridge.site.tivra.fridgeforcodechef.StaticHelper.makeBody;
 
 public class ContestActivity extends AppCompatActivity {
     String code, url, apiurl, name, startDate, endDate;
@@ -106,6 +114,35 @@ public class ContestActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    try {
+                        ArrayList<String> contestCodes=new ArrayList<>();
+                        ArrayList<String> names=new ArrayList<>();
+                        ArrayList<String> ratingRanges=new ArrayList<>();
+                        JSONObject children = response.getJSONObject("child_contests");
+                        Iterator iterator = children.keys();
+                        while (iterator.hasNext()){
+                            JSONObject childcontest= children.getJSONObject((String)iterator.next());
+                            JSONObject childcontestinfo=childcontest.getJSONObject("div");
+                            contestCodes.add(childcontest.getString("contest_code"));
+                            names.add(childcontestinfo.getString("name"));
+                            ratingRanges.add(childcontestinfo.getString("min_rating")+"-"+childcontestinfo.getString("max_rating"));
+                        }
+                        if(!names.isEmpty()) {
+                            swipeRefreshLayout.setRefreshing(false);
+                            FragmentManager fm = getSupportFragmentManager();
+                            Bundle bundle=new Bundle();
+                            bundle.putStringArrayList("names",names);
+                            bundle.putStringArrayList("ranges",ratingRanges);
+                            bundle.putStringArrayList("codes",contestCodes);
+                            DivisionDialogFragment alertDialog = new DivisionDialogFragment();
+                            alertDialog.setArguments(bundle);
+                            alertDialog.setCancelable(true);
+                            alertDialog.show(fm, "Tag");
+                            return;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     JSONObject problems = response.getJSONObject("problems");
                     Iterator<?> keys = problems.keys();
                     questions.clear();
@@ -113,7 +150,15 @@ public class ContestActivity extends AppCompatActivity {
                         String key = (String) keys.next();
                         JSONObject temp = new JSONObject(problems.get(key).toString());
                         String qcode = temp.getString("code");
+
                         String qname = temp.getString("name");
+                        try {
+                            String category=temp.getString("category_name").trim().toLowerCase();
+                            if(!(category.equals("")||category.equals("main"))) {
+                                qname=category.toUpperCase().charAt(0)+category.substring(1)+"<br />"+qname;
+                            }
+                        }
+                        catch (Exception e) {}
                         String successful = temp.getString("successful_submissions");
                         String accuracy = temp.getString("accuracy");
                         questions.add(new Question(qname, qcode, successful, accuracy, sentCode, name));
@@ -284,26 +329,7 @@ public class ContestActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 BufferedReader bufferedReader = new BufferedReader(new StringReader(body));
-                StringBuilder str = new StringBuilder("");
-                String temp;
-                try {
-                    int state = 0;
-                    while ((temp = bufferedReader.readLine()) != null) {
-                        for (int i = 0; i < temp.length(); i++) {
-                            if (temp.charAt(i) == '<')
-                                state++;
-                            if (temp.charAt(i) == '>') {
-                                state--;
-                            }
-                        }
-                        str.append(temp);
-                        if (state == 0)
-                            str.append("<br>");
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                String bodyData = str.toString();
+                String bodyData = makeBody(bufferedReader);
                 String extraData = "Time Limit: " + time_limit + " sec  Source limit: " + source_limit + " bytes" + editorial;
 
                 File file = new File(getFilesDir(), q.questionCode + ".body1");

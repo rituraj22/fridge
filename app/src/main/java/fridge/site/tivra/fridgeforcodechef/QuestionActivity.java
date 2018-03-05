@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,21 +29,22 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
-import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 
+import static fridge.site.tivra.fridgeforcodechef.StaticHelper.end;
+import static fridge.site.tivra.fridgeforcodechef.StaticHelper.init;
+import static fridge.site.tivra.fridgeforcodechef.StaticHelper.makeBody;
+
 public class QuestionActivity extends AppCompatActivity {
     public String code, name, contest;
-    private HtmlTextView bodyView;
+    private WebView bodyView;
     private TextView textView;
     private RequestQueue queue;
     private FloatingActionButton fab;
@@ -52,6 +54,7 @@ public class QuestionActivity extends AppCompatActivity {
     String cname = null;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toast mToastToShow = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,10 @@ public class QuestionActivity extends AppCompatActivity {
         else
             contest = "PRACTICE";
         setSupportActionBar((Toolbar) findViewById(R.id.question_toolbar));
+        int pos = name.indexOf("<br />");
+        if (pos != -1) {
+            name = name.substring(pos + 6);
+        }
         getSupportActionBar().setTitle(name + " (" + code + ")");
         fab = findViewById(R.id.question_download);
         fab.bringToFront();
@@ -156,11 +163,8 @@ public class QuestionActivity extends AppCompatActivity {
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 BufferedReader bufferedReader = new BufferedReader(new StringReader(body));
-                StringBuilder str = new StringBuilder("");
-                String temp;
-                makeBody(bufferedReader, str);
-                bodyData = str.toString();
-                bodyView.setHtml(bodyData, new HtmlHttpImageGetter(bodyView));
+                bodyData = makeBody(bufferedReader);
+                bodyView.loadDataWithBaseURL(null, init + bodyData + end, "text/html", "UTF-8", null);
                 extraData = "Time Limit: " + time_limit + " sec  Source limit: " + source_limit + " bytes" + editorial;
                 textView.setText(extraData);
 
@@ -169,7 +173,10 @@ public class QuestionActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 showToast("An error occured", 1000);
-                bodyView.setText("An error occured");
+                bodyView.loadData(init+"<style>\n" +
+                        "h1 {\n" +
+                        "    text-align: center;\n" +
+                        "}"+"</style>"+"<h1>An error occured</h1>"+end, "text/html", "utf-8");
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -205,7 +212,7 @@ public class QuestionActivity extends AppCompatActivity {
                 if ((line = bufferedReader.readLine()) != null)
                     extraData = extraData + ("\n" + line);
                 fileInputStream2.close();
-                bodyView.setHtml(bodyData, new HtmlHttpImageGetter(bodyView));
+                bodyView.loadDataWithBaseURL(null, init + bodyData + end, "text/html", "UTF-8", null);
                 textView.setText(extraData);
                 fab.setImageResource(R.drawable.ic_delete_white_24dp);
                 if (android.os.Build.VERSION.SDK_INT >= 23)
@@ -221,29 +228,6 @@ public class QuestionActivity extends AppCompatActivity {
 
     }
 
-    public static void makeBody(BufferedReader bufferedReader, StringBuilder str) {
-        String temp;
-        try {
-            int state = 0;
-            while ((temp = bufferedReader.readLine()) != null) {
-                for (int i = 0; i < temp.length(); i++) {
-                    if (temp.charAt(i) == '<' && temp.length() != i + 1 && temp.charAt(i + 1) != ' ')
-                        state++;
-                    if (temp.charAt(i) == '>' && i != 0 && temp.charAt(i - 1) != ' ') {
-                        state--;
-                    }
-                }
-                str.append(temp);
-                if (state != 0) {
-                    //hello
-                }
-                if (state == 0 && !temp.trim().equals(""))
-                    str.append("<br>");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -296,7 +280,10 @@ public class QuestionActivity extends AppCompatActivity {
         if (savedInstanceState.containsKey("body")) {
             bodyData = savedInstanceState.getString("body");
             extraData = savedInstanceState.getString("extra");
-            bodyView.setHtml(bodyData, new HtmlHttpImageGetter(bodyView));
+
+
+            bodyView.loadDataWithBaseURL(null, init + bodyData + end, "text/html", "UTF-8", null);
+
             textView.setText(extraData);
             File f = new File(getApplicationContext().getFilesDir(), code + ".body1");
             if (f.exists()) {

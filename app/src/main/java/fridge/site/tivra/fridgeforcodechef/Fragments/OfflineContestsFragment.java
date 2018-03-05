@@ -30,7 +30,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-import de.psdev.licensesdialog.LicensesDialog;
 import fridge.site.tivra.fridgeforcodechef.AboutActivity;
 import fridge.site.tivra.fridgeforcodechef.Adapters.ContestsListAdapter;
 import fridge.site.tivra.fridgeforcodechef.DataModels.Contest;
@@ -77,7 +76,7 @@ public class OfflineContestsFragment extends Fragment {
         recyclerView = getActivity().findViewById(R.id.offline_contests_recycler_view);
         contests = new ArrayList<Contest>();
         offlineContestsPlaceholder = getActivity().findViewById(R.id.offline_contests_placeholder);
-        contestsListAdapter = new ContestsListAdapter(contests,getActivity());
+        contestsListAdapter = new ContestsListAdapter(contests, getActivity());
         recyclerView.setAdapter(contestsListAdapter);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -118,7 +117,7 @@ public class OfflineContestsFragment extends Fragment {
             }
         }
         swipeRefreshLayout.setRefreshing(false);
-        contestsListAdapter = new ContestsListAdapter(contests,getActivity());
+        contestsListAdapter = new ContestsListAdapter(contests, getActivity());
         recyclerView.swapAdapter(contestsListAdapter, true);
         if (filter != null)
             contestsListAdapter.setFilter(filter);
@@ -155,10 +154,9 @@ public class OfflineContestsFragment extends Fragment {
                 getActivity().startActivity(i);
                 break;
             case R.id.license_button:
-                new LicensesDialog.Builder(getActivity())
-                        .setNotices(R.raw.notices)
-                        .build()
-                        .show();
+                LicenseFragment alertDialog = new LicenseFragment();
+                alertDialog.setCancelable(true);
+                alertDialog.show(getActivity().getSupportFragmentManager(), "Tag");
                 break;
             case R.id.share_menu_main:
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
@@ -227,7 +225,7 @@ public class OfflineContestsFragment extends Fragment {
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null && savedInstanceState.containsKey("contests")) {
             contests = savedInstanceState.getParcelableArrayList("contests");
-            contestsListAdapter = new ContestsListAdapter(contests,getActivity());
+            contestsListAdapter = new ContestsListAdapter(contests, getActivity());
             recyclerView.swapAdapter(contestsListAdapter, false);
             contestsListAdapter.setFilter(filter);
             if (savedInstanceState.containsKey("pos") && savedInstanceState.containsKey("top")) {

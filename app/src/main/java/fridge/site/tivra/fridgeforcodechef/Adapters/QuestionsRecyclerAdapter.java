@@ -34,6 +34,8 @@ import fridge.site.tivra.fridgeforcodechef.DataModels.Question;
 import fridge.site.tivra.fridgeforcodechef.QuestionActivity;
 import fridge.site.tivra.fridgeforcodechef.R;
 
+import static fridge.site.tivra.fridgeforcodechef.StaticHelper.makeBody;
+
 /**
  * Created by cogito on 12/17/17.
  */
@@ -57,7 +59,8 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
     @Override
     public void onBindViewHolder(final QuestionHolder holder, final int position) {
         final Question question = questions.get(position);
-        holder.questionName.setText(question.questionName);
+        String lineSep = System.getProperty("line.separator");
+        holder.questionName.setText(question.questionName.replaceAll("<br />", lineSep));
         holder.successDetails.setText(question.successDetails);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +90,8 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
                     f.delete();
                     f = new File(holder.context.getFilesDir(), holder.questionCode + ".extra2");
                     f.delete();
+                    if(question.questionTitle.indexOf("<br />")!=-1)
+                        question.questionTitle=question.questionTitle.substring(question.questionTitle.indexOf("<br />")+6);
                     showToast(holder.context, "Deleted " + question.questionTitle, 1000);
                     holder.button.setImageResource(R.drawable.ic_file_download_white_24dp);
                     holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_download));
@@ -116,11 +121,11 @@ public class QuestionsRecyclerAdapter extends RecyclerView.Adapter<QuestionsRecy
                         BufferedReader bufferedReader = new BufferedReader(new StringReader(body));
                         StringBuilder str = new StringBuilder("");
                         String temp;
-                        QuestionActivity.makeBody(bufferedReader, str);
+                        bodyData=makeBody(bufferedReader);
                         holder.button.setImageResource(R.drawable.ic_delete_white_24dp);
                         holder.button.setBackgroundDrawable(holder.context.getResources().getDrawable(R.drawable.round_button_delete));
 
-                        bodyData = str.toString();
+
                         extraData = "Time Limit: " + time_limit + " sec  Source limit: " + source_limit + " bytes" + editorial;
                         File file = new File(holder.context.getFilesDir(), holder.questionCode + ".body1");
                         File file2 = new File(holder.context.getFilesDir(), holder.questionCode + ".extra2");

@@ -45,7 +45,8 @@ public class QuestionsLiteRecyclerAdapter extends RecyclerView.Adapter<Questions
     @Override
     public void onBindViewHolder(final QuestionHolder holder, final int position) {
         final Question question = filtered.get(position);
-        holder.questionName.setText(question.questionTitle);
+        String lineSep = System.getProperty("line.separator");
+        holder.questionName.setText(question.questionTitle.replaceAll("<br />", lineSep));
         holder.successDetails.setText(question.contestName);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +76,8 @@ public class QuestionsLiteRecyclerAdapter extends RecyclerView.Adapter<Questions
                     f.delete();
                     f = new File(holder.context.getFilesDir(), holder.questionCode + ".extra2");
                     f.delete();
+                    if(question.questionTitle.indexOf("<br />")!=-1)
+                        question.questionTitle=question.questionTitle.substring(question.questionTitle.indexOf("<br />")+6);
                     showToast(holder.context, "Deleted " + question.questionTitle, 1000);
                     filtered.remove(question);
                     notifyDataSetChanged();

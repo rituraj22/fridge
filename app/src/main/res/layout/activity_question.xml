@@ -50,11 +50,11 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <org.sufficientlysecure.htmltextview.HtmlTextView
+                <WebView
                     android:id="@+id/question_body"
                     android:layout_width="match_parent"
                     android:textColor="#FFF"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:padding="8dp" />
 
                 <TextView

@@ -30,7 +30,6 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-import de.psdev.licensesdialog.LicensesDialog;
 import fridge.site.tivra.fridgeforcodechef.AboutActivity;
 import fridge.site.tivra.fridgeforcodechef.Adapters.QuestionsLiteRecyclerAdapter;
 import fridge.site.tivra.fridgeforcodechef.DataModels.Question;
@@ -216,10 +215,9 @@ public class QuestionsListFragment extends Fragment {
                 getActivity().startActivity(i);
                 break;
             case R.id.license_button:
-                new LicensesDialog.Builder(getActivity())
-                        .setNotices(R.raw.notices)
-                        .build()
-                        .show();
+                LicenseFragment alertDialog = new LicenseFragment();
+                alertDialog.setCancelable(true);
+                alertDialog.show(getActivity().getSupportFragmentManager(), "Tag");
                 break;
             case R.id.share_menu_main:
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);

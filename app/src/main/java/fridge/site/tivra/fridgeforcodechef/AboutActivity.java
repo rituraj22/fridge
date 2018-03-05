@@ -23,7 +23,6 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-
         setSupportActionBar((Toolbar) findViewById(R.id.about_toolbar));
         getSupportActionBar().setTitle("About Fridge for Codechef");
 
@@ -32,7 +31,7 @@ public class AboutActivity extends AppCompatActivity {
         play = findViewById(R.id.play_button);
         mail = findViewById(R.id.mail_button);
 
-        String versionName = "";
+        String versionName;
 
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -65,7 +64,6 @@ public class AboutActivity extends AppCompatActivity {
         mail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO change email
                 Intent i = new Intent(Intent.ACTION_SENDTO);
                 String[] adresses = new String[1];
                 adresses[0] = "rituraj22in@gmail.com";
@@ -91,7 +89,7 @@ public class AboutActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT,  getString(R.string.app_name));
         sharingIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text));
         startActivity(Intent.createChooser(sharingIntent, "Share app via"));
         return super.onOptionsItemSelected(item);
